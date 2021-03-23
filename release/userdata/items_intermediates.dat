@@ -1,0 +1,275 @@
+item
+@@
+@@ Fuel blocks
+@@
+Hydrogen Fuel Block
+Helium Fuel Block
+Oxygen Fuel Block
+Nitrogen Fuel Block
+@@
+@@ Alchemy intermediates
+@@
+Unrefined Caesarium Cadmide
+Unrefined Crystallite Alloy
+Unrefined Dysporite
+Unrefined Fernite Alloy
+Unrefined Ferrofluid
+Unrefined Fluxed Condensates
+Unrefined Hexite
+Unrefined Hyperflurite
+Unrefined Neo Mercurite
+Unrefined Platinum Technite
+Unrefined Promethium Mercurite
+Unrefined Prometium
+Unrefined Rolled Tungsten Alloy
+Unrefined Solerium
+Unrefined Thulium Hafnite
+Unrefined Titanium Chromide
+Unrefined Vanadium Hafnite
+@@
+@@ Intermediate reactions
+@@
+Caesarium Cadmide
+Carbon Polymers
+Ceramic Powder
+Crystallite Alloy
+Dysporite
+Fernite Alloy
+Ferrofluid
+Fluxed Condensates
+Hexite
+Hyperflurite
+Neo Mercurite
+Platinum Technite
+Promethium Mercurite
+Prometium
+Rolled Tungsten Alloy
+Silicon Diborite
+Solerium
+Sulfuric Acid
+Thulium Hafnite
+Titanium Chromide
+Vanadium Hafnite
+@@
+@@ Complex reactions
+@@
+Crystalline Carbonide
+Fermionic Condensates
+Fernite Carbide
+Ferrogel
+Fullerides
+Hypersynaptic Fibers
+Nanotransistors
+Nonlinear Metamaterials
+Phenolic Composites
+Photonic Metamaterials
+Plasmonic Metamaterials
+Sylramic Fibers
+Terahertz Metamaterials
+Titanium Carbide
+Tungsten Carbide
+@@
+@@ T2 components
+@@
+Antimatter Reactor Unit
+Fusion Reactor Unit
+Graviton Reactor Unit
+Nuclear Reactor Unit
+Deflection Shield Emitter
+Pulse Shield Emitter
+Sustained Shield Emitter
+Electrolytic Capacitor Unit
+Oscillator Capacitor Unit
+Tesseract Capacitor Unit
+Scalar Capacitor Unit
+EM Pulse Generator
+Graviton Pulse Generator
+Nuclear Pulse Generator
+Plasma Pulse Generator
+Crystalline Carbonide Armor Plate
+Fernite Carbide Composite Armor Plate
+Titanium Diborite Armor Plate
+Tungsten Carbide Armor Plate
+Fusion Thruster
+Ion Thruster
+Magpulse Thruster
+Plasma Thruster
+Gravimetric Sensor Cluster
+Ladar Sensor Cluster
+Magnetometric Sensor Cluster
+Radar Sensor Cluster
+Laser Focusing Crystals
+Particle Accelerator Unit
+Superconductor Rails
+Thermonuclear Trigger Unit
+Linear Shield Emitter
+Nanoelectrical Microprocessor
+Nanomechanical Microprocessor
+Photon Microprocessor
+Quantum Microprocessor
+R.A.M.- Robotics
+R.A.M.- Weapon Tech
+R.A.M.- Starship Tech
+R.A.M.- Armor/Hull Tech
+R.A.M.- Electronics
+R.A.M.- Ammunition Tech
+R.A.M.- Energy Tech
+R.A.M.- Shield Tech
+@@
+@@ T1 ships
+@@
+Rifter
+Punisher
+Maller
+Hurricane
+Drake
+Harbinger
+Dominix
+Armageddon
+Scorpion
+Typhoon
+Tempest
+Megathron
+Raven
+Apocalypse
+Maelstrom
+Rokh
+Abaddon
+Hyperion
+Stabber
+Blackbird
+Rupture
+Scythe
+Omen
+Augoror
+Osprey
+Vexor
+Executioner
+Atron
+Slasher
+Breacher
+Tristan
+Kestrel
+Inquisitor
+Thrasher
+Coercer
+Cormorant
+Catalyst
+Rupture
+Maller
+Magnate
+Heron
+Imicus
+Probe
+Burst
+Bantam
+Navitas
+Hurricane
+Incursus
+@@
+@@ T1 modules
+@@
+Co-Processor I
+1400mm Howitzer Artillery I
+720mm Howitzer Artillery I
+425mm AutoCannon I
+220mm Vulcan AutoCannon I
+200mm AutoCannon I
+Damage Control I
+Cynosural Field Generator I
+Nanofiber Internal Structure I
+Tracking Computer I
+Tracking Enhancer I
+Warp Disruptor I
+Warp Scrambler I
+1MN Afterburner I
+10MN Afterburner I
+5MN Microwarpdrive I
+50MN Microwarpdrive I
+500MN Microwarpdrive I
+Gyrostabilizer I
+Magnetic Field Stabilizer I
+Medium Shield Extender I
+Large Shield Extender I
+Small Shield Extender I
+Multispectrum Shield Hardener I
+EM Shield Amplifier I
+EM Shield Hardener I
+Thermal Shield Hardener I
+Kinetic Shield Hardener I
+Explosive Shield Hardener I
+Sensor Booster I
+350mm Railgun I
+Multispectrum Energized Membrane I
+Heat Sink I
+Cap Recharger I
+Dual Heavy Beam Laser I
+Tachyon Beam Laser I
+Mega Pulse Laser I
+Reactor Control Unit I
+Power Diagnostic System I
+Capacitor Power Relay I
+Ballistic Control System I
+Multispectrum Coating I
+425mm Railgun I
+Signal Distortion Amplifier I
+Gravimetric ECM I
+Ladar ECM I
+Radar ECM I
+Magnetometric ECM I
+Heavy Beam Laser I
+Warrior I
+Ogre I
+Hammerhead I
+Prototype Cloaking Device I
+Heavy Missile Launcher I
+EM Armor Hardener I
+Explosive Armor Hardener I
+Kinetic Armor Hardener I
+Thermal Armor Hardener I
+250mm Railgun I
+150mm Railgun I
+125mm Railgun I
+Shield Power Relay I
+Burst Jammer I
+Inertial Stabilizers I
+@@
+@@ Ammo
+@@
+Carbonized Lead L
+Nuclear M
+@@
+@@ Dummy item for decryptor evaluation
+@@
+No Decryptor
+@@
+@@ T3 reactions
+@@
+C3-FTM Acid
+Carbon-86 Epoxy Resin
+Fullerene Intercalated Graphite
+Fulleroferrocene
+Graphene Nanoribbons
+Lanthanum Metallofullerene
+Methanofullerene
+PPD Fullerene Fibers
+Scandium Metallofullerene
+@@
+@@ T3 components
+@@
+Electromechanical Interface Nexus
+Emergent Neurovisual Interface
+Fullerene Intercalated Sheets
+Fulleroferrocene Power Conduits
+Metallofullerene Plating
+Nanowire Composites
+Neurovisual Output Analyzer
+Optimized Nano-Engines
+Reconfigured Subspace Calibrator
+Reinforced Metallofullerene Alloys
+Self-Assembling Nanolattice
+Superconducting Gravimetric Amplifier
+Superconducting Ladar Amplifier
+Superconducting Magnetometric Amplifier
+Superconducting Radar Amplifier
+Warfare Computation Core

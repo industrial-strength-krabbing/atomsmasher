@@ -1,0 +1,240 @@
+item
+@@
+@@ To add an item to this list:
+@@ Add it here (items_inventables.dat)
+@@ Add the T1 item to items_intermediates.dat
+@@ Add the T2 item Eve-Central market ID to items_marketids.dat
+@@ 
+@@ Command ships
+Absolution
+Damnation
+Nighthawk
+Vulture
+Astarte
+Eos
+Claymore
+Sleipnir
+@@ HACs
+Sacrilege
+Zealot
+Cerberus
+Eagle
+Deimos
+Ishtar
+Muninn
+Vagabond
+@@ Logistics
+Scimitar
+Guardian
+Basilisk
+Oneiros
+@@ Interceptors
+Crusader
+Malediction
+Crow
+Raptor
+Ares
+Taranis
+Claw
+Stiletto
+@@ Logistics Frigates
+Deacon
+Kirin
+Thalia
+Scalpel
+@@ Expedition Frigates
+Endurance
+Prospect
+@@ Bombers
+Hound
+Manticore
+Nemesis
+Purifier
+@@ Interdictors
+Sabre
+Heretic
+Eris
+Flycatcher
+@@ Recons
+Curse
+Pilgrim
+Falcon
+Rook
+Arazu
+Lachesis
+Huginn
+Rapier
+@@ HICs
+Broadsword
+Devoter
+@@ Command Destroyers
+Pontifex
+Stork
+Magus
+Bifrost
+@@ CovOps
+Anathema
+Buzzard
+Helios
+Cheetah
+@@ Ass Frigs
+Wolf
+Jaguar
+Retribution
+Vengeance
+Enyo
+Ishkur
+Harpy
+Hawk
+@@ Blops
+Sin
+@@ Modules
+1400mm Howitzer Artillery II
+1200mm Artillery Cannon II
+720mm Howitzer Artillery II
+280mm Howitzer Artillery II
+425mm AutoCannon II
+220mm Vulcan AutoCannon II
+200mm AutoCannon II
+Damage Control II
+Nanofiber Internal Structure II
+Inertial Stabilizers II
+Overdrive Injector System II
+Tracking Enhancer II
+Tracking Computer II
+Warp Disruptor II
+Warp Scrambler II
+1MN Afterburner II
+10MN Afterburner II
+5MN Microwarpdrive II
+50MN Microwarpdrive II
+500MN Microwarpdrive II
+Gyrostabilizer II
+Barrage M
+Barrage S
+Tremor L
+Magnetic Field Stabilizer II
+Medium Shield Extender II
+Large Shield Extender II
+Small Shield Extender II
+Multispectrum Shield Hardener II
+EM Shield Amplifier II
+EM Shield Hardener II
+Thermal Shield Hardener II
+Kinetic Shield Hardener II
+Explosive Shield Hardener II
+Sensor Booster II
+Multispectrum Energized Membrane II
+Multispectrum Coating II
+Heat Sink II
+Cap Recharger II
+Capacitor Power Relay II
+Power Diagnostic System II
+Reactor Control Unit II
+Dual Heavy Beam Laser II
+Tachyon Beam Laser II
+Mega Pulse Laser II
+Ballistic Control System II
+425mm Railgun II
+350mm Railgun II
+250mm Railgun II
+150mm Railgun II
+125mm Railgun II
+Signal Distortion Amplifier II
+Gravimetric ECM II
+Ladar ECM II
+Radar ECM II
+Magnetometric ECM II
+Heavy Beam Laser II
+Torpedo Launcher II
+XL Cruise Missile Launcher II
+Cruise Missile Launcher II
+Heavy Missile Launcher II
+Light Missile Launcher II
+Rocket Launcher II
+Kinetic Armor Hardener II
+Explosive Armor Hardener II
+EM Armor Hardener II
+Thermal Armor Hardener II
+Co-Processor II
+Shield Flux Coil II
+Shield Power Relay II
+Capital Armor Repairer II
+Large Armor Repairer II
+Medium Armor Repairer II
+Small Armor Repairer II
+Miner II
+Modulated Strip Miner II
+Mining Laser Upgrade II
+Burst Jammer II
+@@ Ammo
+Quake M
+Aurora L
+Scorch L
+Spike L
+@@ Drones
+Warrior II
+Ogre II
+Praetor II
+Hammerhead II
+Garde II
+Hobgoblin II
+Acolyte II
+Mining Drone II
+@@ T3
+Confessor
+Hecate
+Jackdaw
+Svipul
+Legion
+Loki
+Proteus
+Tengu
+Legion Defensive - Augmented Plating
+Legion Defensive - Covert Reconfiguration
+Legion Defensive - Nanobot Injector
+Loki Defensive - Adaptive Defense Node
+Loki Defensive - Augmented Durability
+Loki Defensive - Covert Reconfiguration
+Proteus Defensive - Augmented Plating
+Proteus Defensive - Covert Reconfiguration
+Proteus Defensive - Nanobot Injector
+Tengu Defensive - Amplification Node
+Tengu Defensive - Covert Reconfiguration
+Tengu Defensive - Supplemental Screening
+Legion Core - Augmented Antimatter Reactor
+Legion Core - Dissolution Sequencer
+Legion Core - Energy Parasitic Complex
+Loki Core - Augmented Nuclear Reactor
+Loki Core - Dissolution Sequencer
+Loki Core - Immobility Drivers
+Proteus Core - Augmented Fusion Reactor
+Proteus Core - Electronic Efficiency Gate
+Proteus Core - Friction Extension Processor
+Tengu Core - Augmented Graviton Reactor
+Tengu Core - Electronic Efficiency Gate
+Tengu Core - Obfuscation Manifold
+Legion Propulsion - Intercalated Nanofibers
+Legion Propulsion - Interdiction Nullifier
+Legion Propulsion - Wake Limiter
+Loki Propulsion - Intercalated Nanofibers
+Loki Propulsion - Interdiction Nullifier
+Loki Propulsion - Wake Limiter
+Proteus Propulsion - Hyperspatial Optimization
+Proteus Propulsion - Interdiction Nullifier
+Proteus Propulsion - Localized Injectors
+Tengu Propulsion - Chassis Optimization
+Tengu Propulsion - Fuel Catalyst
+Tengu Propulsion - Interdiction Nullifier
+Legion Offensive - Assault Optimization
+Legion Offensive - Liquid Crystal Magnifiers
+Legion Offensive - Support Processor
+Loki Offensive - Launcher Efficiency Configuration
+Loki Offensive - Projectile Scoping Array
+Loki Offensive - Support Processor
+Proteus Offensive - Drone Synthesis Projector
+Proteus Offensive - Hybrid Encoding Platform
+Proteus Offensive - Support Processor
+Tengu Offensive - Accelerated Ejection Bay
+Tengu Offensive - Magnetic Infusion Basin
+Tengu Offensive - Support Processor

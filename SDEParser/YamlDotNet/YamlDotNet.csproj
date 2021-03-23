@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45</TargetFrameworks>
+    <PackageProjectUrl>https://github.com/aaubry/YamlDotNet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aaubry/YamlDotNet</RepositoryUrl>
+    <Description>YamlDotNet is a .NET library for YAML. YamlDotNet provides low level parsing and emitting of YAML as well as a high level object model similar to XmlDocument. A serialization library is also included that allows to read and write objects from and to YAML streams.</Description>
+    <PackageLicenseUrl>https://github.com/aaubry/YamlDotNet/blob/master/LICENSE</PackageLicenseUrl>
+    <Copyright>Copyright (c) Antoine Aubry and contributors</Copyright>
+    <Configurations>Debug;Release-Signed;Release-Unsigned;Debug-AOT</Configurations>
+    <AssemblyOriginatorKeyFile>..\YamlDotNet.snk</AssemblyOriginatorKeyFile>
+    <DocumentationFile>bin\$(Configuration)\YamlDotNet.xml</DocumentationFile>
+    <NoWarn>1591;1574</NoWarn>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
+    <FrameworkPathOverride>$(SolutionDir)BuildUtils.UnityPrerequisites\Unity Subset v3.5</FrameworkPathOverride>
+    <DefineConstants>$(DefineConstants);UNITY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release-Signed' ">
+    <DefineConstants>$(DefineConstants);SIGNED</DefineConstants>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+
+  <!--
+    Remove implicit framework references, to prevent warning of missing System.Drawing
+    when targetting Unity.
+   -->
+  <PropertyGroup Condition="'$(TargetFramework)' != 'netstandard1.3'">
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.3'">
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.3' And '$(TargetFramework)' != 'net20'">
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <PackageReference Include="System.Runtime.Serialization.Formatters">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.ComponentModel.TypeConverter">
+      <Version>4.3.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

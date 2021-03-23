@@ -1,0 +1,213 @@
+item	marketPrice	buildPrice	sourcing
+Hydrogen Fuel Block	21379.1	19464.394625	build
+Helium Fuel Block	20657.78	17382.897125	build
+Oxygen Fuel Block	20711.11	19949.078375	build
+Nitrogen Fuel Block	20698.81	18047.097125	build
+Unrefined Caesarium Cadmide	10000000	2049804.4018238	build
+Unrefined Crystallite Alloy	456812.31699875	456812.31699875	market
+Unrefined Dysporite	2829070.1589987	2829070.1589987	market
+Unrefined Fernite Alloy	750000	416112.25382375	build
+Unrefined Ferrofluid	4997712.8018238	4997712.8018238	market
+Unrefined Fluxed Condensates	2802433.1156862	2802433.1156862	market
+Unrefined Hexite	578999.99	268412.47099875	build
+Unrefined Hyperflurite	2814364.7069988	2814364.7069988	market
+Unrefined Neo Mercurite	3000000	2681702.9849988	build
+Unrefined Platinum Technite	1752724.1869988	1752724.1869988	market
+Unrefined Promethium Mercurite	2702897.2249988	2702897.2249988	market
+Unrefined Prometium	3280241.4776863	3280241.4776863	market
+Unrefined Rolled Tungsten Alloy	710000	592364.87099875	build
+Unrefined Solerium	1923631.4678237	1923631.4678237	market
+Unrefined Thulium Hafnite	4541098.6798238	4541098.6798238	market
+Unrefined Titanium Chromide	7500000	527162.38899875	build
+Unrefined Vanadium Hafnite	1572758.1156862	1572758.1156862	market
+Caesarium Cadmide	25252	20881.052208431	build
+Carbon Polymers	2199.31	1584.7295849938	build
+Ceramic Powder	2959.88	2339.1387891188	build
+Crystallite Alloy	10396.91	9500.4568049937	build
+Dysporite	50978.55	50821.783444994	build
+Fernite Alloy	12945.99	7965.9513991187	build
+Ferrofluid	70518.78	61664.996659119	build
+Fluxed Condensates	59908.84	56578.790178431	build
+Hexite	14500	15618.058274994	market
+Hyperflurite	48096.44	42245.0915677	build
+Neo Mercurite	42000	41666.685054994	build
+Platinum Technite	18992	15961.982544994	build
+Promethium Mercurite	49451.99	42050.842212043	build
+Prometium	51993.65	42953.387054446	build
+Rolled Tungsten Alloy	11596.89	7757.4439814172	build
+Silicon Diborite	2699.94	2350.9408384313	build
+Solerium	19998.93	20250.187538431	market
+Sulfuric Acid	2104.51	1342.0623549938	build
+Thulium Hafnite	43857.16	37013.947869119	build
+Titanium Chromide	10294.06	9515.9965184312	build
+Vanadium Hafnite	29797.7	22705.493399119	build
+Crystalline Carbonide	172.88	116.43518633835	build
+Fermionic Condensates	98644.43	83814.724820623	build
+Fernite Carbide	159.94	109.85073861581	build
+Ferrogel	48044.43	39528.985235547	build
+Fullerides	924.66	598.97970815318	build
+Hypersynaptic Fibers	13939.32	12275.472744404	build
+Nanotransistors	5036.96	3887.7589737426	build
+Nonlinear Metamaterials	25444.43	23403.060328307	build
+Phenolic Composites	2893.12	2077.9378143295	build
+Photonic Metamaterials	18598.04	15425.516756483	build
+Plasmonic Metamaterials	19123.83	16430.034641514	build
+Sylramic Fibers	379.99	287.46447117649	build
+Terahertz Metamaterials	22944.42	16453.272614139	build
+Titanium Carbide	164.86	125.29917102447	build
+Tungsten Carbide	184	97.418128016517	build
+Antimatter Reactor Unit	199966.73	151655.59151405	build
+Fusion Reactor Unit	194245.89	151809.62968646	build
+Graviton Reactor Unit	188997.78	151881.42796242	build
+Nuclear Reactor Unit	198986.54	151756.29565991	build
+Deflection Shield Emitter	56696.89	44032.49207667	build
+Pulse Shield Emitter	62299.8	44162.864141576	build
+Sustained Shield Emitter	61999.4	44338.371038361	build
+Electrolytic Capacitor Unit	54790.99	42061.093387549	build
+Oscillator Capacitor Unit	67665.85	40412.96327415	build
+Tesseract Capacitor Unit	70898.75	41800.809300711	build
+Scalar Capacitor Unit	70997.7	54987.936531306	build
+EM Pulse Generator	28995.62	22017.853317739	build
+Graviton Pulse Generator	39997.78	22569.897969297	build
+Nuclear Pulse Generator	33496.99	22264.019007605	build
+Plasma Pulse Generator	33498.98	22394.391072512	build
+Crystalline Carbonide Armor Plate	12496.84	7456.731643646	build
+Fernite Carbide Composite Armor Plate	11794.62	7195.9875138332	build
+Titanium Diborite Armor Plate	12797.51	7807.7454372161	build
+Tungsten Carbide Armor Plate	13299.69	6703.6561341013	build
+Fusion Thruster	66099.99	46279.20943203	build
+Ion Thruster	64300	46501.709014396	build
+Magpulse Thruster	56994.77	46605.417635223	build
+Plasma Thruster	66891.26	46424.670976042	build
+Gravimetric Sensor Cluster	39500.01	28464.533499954	build
+Ladar Sensor Cluster	38000	28158.654538262	build
+Magnetometric Sensor Cluster	44999.99	28289.026603169	build
+Radar Sensor Cluster	39999.99	27912.488848396	build
+Laser Focusing Crystals	35026.97	20923.337626781	build
+Particle Accelerator Unit	36799.92	21453.91355396	build
+Superconductor Rails	38799.82	21701.218726703	build
+Thermonuclear Trigger Unit	35799.64	21270.207462501	build
+Linear Shield Emitter	70568.08	43786.326386804	build
+Nanoelectrical Microprocessor	73988.71	49325.218414219	build
+Nanomechanical Microprocessor	69999.98	49473.609005664	build
+Photon Microprocessor	68474.47	47766.218862761	build
+Quantum Microprocessor	78799.99	62261.416257743	build
+R.A.M.- Robotics	381.96	260.2062	build
+R.A.M.- Weapon Tech	229.99	260.2062	market
+R.A.M.- Starship Tech	149.74	260.2062	market
+R.A.M.- Armor/Hull Tech	444.99	260.2062	build
+R.A.M.- Electronics	314.83	260.2062	build
+R.A.M.- Ammunition Tech	170.08	260.2062	market
+R.A.M.- Energy Tech	512.94	260.2062	build
+R.A.M.- Shield Tech	346.98	260.2062	build
+Rifter	320000	285426.99	build
+Wolf	42428976.59	20251577.942343	build
+Punisher	414960.99	308910.735	build
+Maller	8099403.95	6723967.32	build
+Hurricane	35000000	30698928.72	build
+Drake	37499999.91	32099706	build
+Harbinger	39795183	33754176.855	build
+Dominix	145000000	120957515.415	build
+Armageddon	142136016.93	127716285.87	build
+Scorpion	112908959.9	104053837.095	build
+Typhoon	125908747	104848197.615	build
+Tempest	117006132.52	107526977.37	build
+Megathron	127879999.99	107871699.15	build
+Raven	140781978.52	110810406.465	build
+Apocalypse	124468905	110976334.065	build
+Maelstrom	146000000	126130462.74	build
+Rokh	150000000	131278666.59	build
+Abaddon	163799998.84	137212543.89	build
+Hyperion	156308987.99	135158517.855	build
+Stabber	7001000.04	6281118.135	build
+Blackbird	5999998.85	5497594.74	build
+Rupture	7799999.85	6502314.735	build
+Scythe	6000000	5297935.41	build
+Omen	7000000	6342793.335	build
+Augoror	5000000	5378466.6	market
+Osprey	6294013.49	5258606.49	build
+Vexor	8099482.7	6719139.855	build
+Executioner	265000	221412.42	build
+Atron	395007.99	238569.255	build
+Slasher	300000	221834.97	build
+Breacher	350000	273474.45	build
+Tristan	384000	310268.475	build
+Kestrel	379999.89	283586.85	build
+Inquisitor	274989.99	258840.09	build
+Thrasher	700000	550039.995	build
+Coercer	850000	691024.725	build
+Cormorant	799999.86	661209.165	build
+Catalyst	975000	729759.375	build
+Rupture	6502314.735	6502314.735	market
+Maller	6723967.32	6723967.32	market
+Magnate	404999.97	316103.895	build
+Heron	299999.99	252275.985	build
+Imicus	400000	273660.84	build
+Probe	400000	281663.73	build
+Burst	175000	331409.295	market
+Bantam	160000	256565.7	market
+Navitas	315000	299027.385	build
+Hurricane	30698928.72	30698928.72	market
+Incursus	375000	312515.325	build
+Co-Processor I	12999.95	21974.29	market
+1400mm Howitzer Artillery I	1199000	1272833.01	market
+720mm Howitzer Artillery I	367999.97	243136.215	build
+425mm AutoCannon I	150000	152417.745	market
+220mm Vulcan AutoCannon I	120000	87022.395	build
+200mm AutoCannon I	23972	12085.56	build
+Damage Control I	9497.9	7217.37	build
+Cynosural Field Generator I	748995	634666.005	build
+Nanofiber Internal Structure I	1745.76	432	build
+Tracking Computer I	14997.99	4736.97	build
+Tracking Enhancer I	15200	23155.18	market
+Warp Disruptor I	39999.95	25111.215	build
+Warp Scrambler I	42999	25111.215	build
+1MN Afterburner I	6120	5332.505	build
+10MN Afterburner I	37399.88	27103.635	build
+5MN Microwarpdrive I	58999	36044.325	build
+50MN Microwarpdrive I	110256.46	125181.565	market
+500MN Microwarpdrive I	800000	690451.875	build
+Gyrostabilizer I	34747.99	33829.785	build
+Magnetic Field Stabilizer I	45011.72	37988.505	build
+Medium Shield Extender I	29797.99	18872.82	build
+Large Shield Extender I	50000	32463.675	build
+Small Shield Extender I	12998.99	6573.42	build
+Adaptive Invulnerability Field I	93999.75	68995.8	build
+Sensor Booster I	12000	21102.21	market
+350mm Railgun I	656187.72	879448.275	market
+Energized Adaptive Nano Membrane I	150000	126477.27	build
+Heat Sink I	34000	22789.08	build
+Cap Recharger I	39958.91	26869.725	build
+Dual Heavy Beam Laser I	790000	610875.27	build
+Tachyon Beam Laser I	1299999	1272833.01	build
+Mega Pulse Laser I	1094999.98	825735.375	build
+Reactor Control Unit I	6244.87	3507.705	build
+Power Diagnostic System I	5699.9	4065.93	build
+Capacitor Power Relay I	12000	8148.735	build
+Ballistic Control System I	49449	46329.93	build
+Adaptive Nano Plating I	14000	7479.45	build
+425mm Railgun I	1499000	1272833.01	build
+Signal Distortion Amplifier I	14999.99	22789.08	market
+Gravimetric ECM I	9999	15684.075	market
+Ladar ECM I	24989.92	15684.075	build
+Radar ECM I	22000	15684.075	build
+Magnetometric ECM I	29999.98	15684.075	build
+Heavy Beam Laser I	234499.99	243136.215	market
+Warrior I	3995	5368.005	market
+Ogre I	25000	20678.94	build
+Hammerhead I	18000	27700.83	market
+Prototype Cloaking Device I	1549990.98	1016671.1202	build
+Heavy Missile Launcher I	34585.96	28518.39	build
+Armor EM Hardener I	84999.9	75720.735	build
+Armor Explosive Hardener I	108995.95	88294.41	build
+Armor Kinetic Hardener I	69999.95	79435.305	market
+Armor Thermal Hardener I	109999.95	119888.145	market
+250mm Railgun I	159900	243136.215	market
+150mm Railgun I	33999	22362.84	build
+125mm Railgun I	11000	12436.875	market
+Shield Power Relay I	28998.99	8148.735	build
+Burst Jammer I	36000	23319.81	build
+Inertial Stabilizers I	16992.24	8424.32	build
+Carbonized Lead L	5	16.7947	market
+Nuclear M	38.43	9.98595	build
+No Decryptor	0	0	market

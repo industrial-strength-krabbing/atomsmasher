@@ -1,0 +1,52 @@
+Atom Smasher revision 16
+
+Download the SDE from here:
+https://developers.eveonline.com/resource/resources
+
+Extract EVERYTHING in "bsd" to "data2"
+Extract all of the .yaml files in the "fsd" root directory (i.e. not the stuff in "universe" and "landmarks") to "data2"
+
+Run "reparse_sde.bat" to parse them into Atom Smasher's data tables.
+
+Run "download_prices.bat" to download Jita aggregates and rebuild the data caches.
+
+Run "runreport.bat" to generate files (most importantly, invention.html)
+
+Edit "config.lua" if you need to change things like price overrides.  After doing that, you can just rerun reports.
+
+
+To generate shopping lists:
+- Edit "on_hand_inventory.csv" to add items that you already have (they'll be subtracted from the shopping list)
+- Edit "shopping_list.csv" to add items that you want to build
+- Run "make_shopping_list.bat" to make "shopping_list.csv"
+
+To collate on-hand inventory from ESI:
+- Make sure you've run reparse_sde.bat and download_prices.bat at least once to build the data caches.
+- Make sure that the solar system list in config.lua is up to date!
+- Authorize any characters that you want by running "esi_authenticate.bat" and follow the instructions.
+    You'll need to run the URI install .reg file to install the registry entries after the authenticate app generates it.
+- Once your characters are added, run esi_fetch_inventory.bat, it will recompute your on-hand inventory from the API and replace on_hand_inventory.csv with the results
+    ULTRA IMPORTANT: Updates to the asset API can be delayed by up to an HOUR!  Make sure that your most recent inventory changes are showing up in the list, especially since industry jobs might be updated sooner!
+
+To uninstall the Atom Smasher ESI URI handler, run uri_handler_uninstall.reg
+
+
+WHAT FILES DO WHAT:
+
+userdata/
+- build_objectives.csv: Used for entering build objectives (i.e. what you want to build) for the shopping list generator
+- config.lua: Many different config options, all are commented.
+- facility_reductions.dat: Table of facility material requirement reduction percentages for different item categories.
+- items_intermediates.dat: Table of buildable/reactable items that are inputs for other production jobs.  Items in this list will be priced at material cost.
+- on_hand_inventory.csv: Table of items you have, which will be subtracted from build requirements.  You can generate this with esi_fetch_inventory.
+- reactions_complex.dat: Complex reaction formulas that you have
+- reactions_intermediate.dat: Intermediate reaction formulas that you have
+
+outputs/
+- exchange.csv: Table of various middlemaning values.  Not too useful any more.
+- intermediates.csv: Table of intermediate item values compared to market values, and whether it's cheaper to build the item or buy it.
+- invention.csv: Lists all invention jobs and profitability.
+- invention.html: HTML report of invention job quality.
+- reactions_alchemy.csv: Table of alchemy reactions and how much material cost they save per additional slot-hour compared to reacting the material from its normal reaction.
+- reactions_complex.csv: Table of complex reaction products and the profitability of reacting them, and the cost of using alchemy instead where it's better.
+- shopping_list.csv: Output list of items and build steps from the shopping list generator.

@@ -1,0 +1,9 @@
+Windows Registry Editor Version 5.00
+
+[-HKEY_CLASSES_ROOT\eveauth-atomsmasher\shell\open\command]
+
+[-HKEY_CLASSES_ROOT\eveauth-atomsmasher\shell\open]
+
+[-HKEY_CLASSES_ROOT\eveauth-atomsmasher\shell]
+
+[-HKEY_CLASSES_ROOT\eveauth-atomsmasher]
