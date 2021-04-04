@@ -3,5 +3,6 @@ SDEParser\AtomSmasherESITool\bin\Release\AtomSmasherESITool.exe FetchMarketOrder
 SDEParser\AtomSmasherESITool\bin\Release\AtomSmasherESITool.exe FetchItemValues
 SDEParser\AtomSmasherESITool\bin\Release\AtomSmasherESITool.exe FetchSCI
 lua5.1.exe filter_sell_orders.lua
-rem 1DQ is 1022734985679
+rem Thetastar is 1022734985679
+rem Imperial Palace is 1030049082711
 pause
