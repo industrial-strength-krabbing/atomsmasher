@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -199,10 +199,10 @@ namespace AtomSmasherESITool
         const string AtomSmasherProtocol = "eveauth-atomsmasher";
         const string AtomSmasherClientID = "56d8d11f77f84bd88a3047a1882dff35";
         const string AtomSmasherCallbackURI = AtomSmasherProtocol + "://go/";
-        const string AtomSmasherPendingAuthPath = "data\\auth_pending.txt";
-        const string AtomSmasherTokenPath = "data\\auth_token.txt";
-        const string AtomSmasherLocationCachePath = "data\\cache\\locations.dat";
-        const string AtomSmasherApplicationName = "data\\cache\\locations.dat";
+        const string AtomSmasherPendingAuthPath = "data/auth_pending.txt";
+        const string AtomSmasherTokenPath = "data/auth_token.txt";
+        const string AtomSmasherLocationCachePath = "data/cache/locations.dat";
+        const string AtomSmasherApplicationName = "data/cache/locations.dat";
         const int AtomSmasherLocationCacheVersion = 2;
 
         const string ESIPrefix = "https://esi.evetech.net/latest";
@@ -426,7 +426,7 @@ namespace AtomSmasherESITool
         {
             Dictionary<long, LocationInfo> cache = new Dictionary<long, LocationInfo>();
 
-            string cachePath = GetRootDirectory() + "\\" + AtomSmasherLocationCachePath;
+            string cachePath = GetRootDirectory() + "/" + AtomSmasherLocationCachePath;
 
             if (!File.Exists(cachePath))
                 return cache;
@@ -459,7 +459,7 @@ namespace AtomSmasherESITool
 
         static void SaveLocationCache(IReadOnlyDictionary<long, LocationInfo> cache)
         {
-            using (StreamWriter sw = new StreamWriter(GetRootDirectory() + "\\" + AtomSmasherLocationCachePath))
+            using (StreamWriter sw = new StreamWriter(GetRootDirectory() + "/" + AtomSmasherLocationCachePath))
             {
                 sw.WriteLine(AtomSmasherLocationCacheVersion);
                 sw.WriteLine(cache.Count);
@@ -502,7 +502,7 @@ namespace AtomSmasherESITool
 
                 Dictionary<long, string> names = new Dictionary<long, string>();
 
-                using (StreamReader sr = new StreamReader(GetRootDirectory() + "\\data2\\invNames.yaml"))
+                using (StreamReader sr = new StreamReader(GetRootDirectory() + "/data2/invNames.yaml"))
                 {
                     YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
                     ItemName[] namesList = ds.Deserialize<ItemName[]>(sr);
@@ -513,7 +513,7 @@ namespace AtomSmasherESITool
                 Console.WriteLine("    Loading stations...");
 
                 int numResolvedStations = 0;
-                using (StreamReader sr = new StreamReader(rootDir + "\\data2\\staStations.yaml"))
+                using (StreamReader sr = new StreamReader(rootDir + "/data2/staStations.yaml"))
                 {
                     YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
 
@@ -731,11 +731,11 @@ namespace AtomSmasherESITool
         {
             CharacterInfo[] chars = esiHandler.GetCharacters();
 
-            string assetsDumpLocation = GetRootDirectory() + "\\data\\cache\\assets.dat";
-            string corpAssetsDumpLocation = GetRootDirectory() + "\\data\\cache\\assets_corp.dat";
-            string locationsDumpLocation = GetRootDirectory() + "\\data\\cache\\asset_locations.dat";
-            string industryJobsDumpLocation = GetRootDirectory() + "\\data\\cache\\industry_jobs.dat";
-            string corpIndustryJobsDumpLocation = GetRootDirectory() + "\\data\\cache\\industry_jobs_corp.dat";
+            string assetsDumpLocation = GetRootDirectory() + "/data/cache/assets.dat";
+            string corpAssetsDumpLocation = GetRootDirectory() + "/data/cache/assets_corp.dat";
+            string locationsDumpLocation = GetRootDirectory() + "/data/cache/asset_locations.dat";
+            string industryJobsDumpLocation = GetRootDirectory() + "/data/cache/industry_jobs.dat";
+            string corpIndustryJobsDumpLocation = GetRootDirectory() + "/data/cache/industry_jobs_corp.dat";
 
             Dictionary<long, long> charCorps = new Dictionary<long, long>();
             Dictionary<long, long> directorRoles = new Dictionary<long, long>();        // Corp --> character
@@ -1028,13 +1028,13 @@ namespace AtomSmasherESITool
 
             foreach (PublicMarketConfig pubMarket in config.public_markets)
             {
-                RetrieveAndWriteMarketOrders(esiHandler, (int)pubMarket.region_id, pubMarket.characterized_locations, null, false, "data\\cache\\public_market_" + pubMarket.region_id.ToString() + ".dat");
+                RetrieveAndWriteMarketOrders(esiHandler, (int)pubMarket.region_id, pubMarket.characterized_locations, null, false, "data/cache/public_market_" + pubMarket.region_id.ToString() + ".dat");
             }
 
             foreach (CitadelMarketConfig citMarket in config.citadel_markets)
             {
                 CharacterizedLocation[] cl = new CharacterizedLocation[] { citMarket.characterized_location };
-                RetrieveAndWriteMarketOrders(esiHandler, 0, cl, citMarket.auth_character_name, true, "data\\cache\\citadel_market_" + citMarket.characterized_location.location_id.ToString() + ".dat");
+                RetrieveAndWriteMarketOrders(esiHandler, 0, cl, citMarket.auth_character_name, true, "data/cache/citadel_market_" + citMarket.characterized_location.location_id.ToString() + ".dat");
             }
         }
 
@@ -1173,7 +1173,7 @@ namespace AtomSmasherESITool
             MarketPrice[] marketPrices = JsonConvert.DeserializeObject<MarketPrice[]>(Encoding.UTF8.GetString(pricesBlob));
             
             Dictionary<long, string> names = new Dictionary<long, string>();
-            using (StreamReader sr = new StreamReader(GetRootDirectory() + "\\data\\cache\\names.dat"))
+            using (StreamReader sr = new StreamReader(GetRootDirectory() + "/data/cache/names.dat"))
             {
                 while (!sr.EndOfStream)
                 {
@@ -1216,7 +1216,7 @@ namespace AtomSmasherESITool
             IndustrySystem[] industrySystems = JsonConvert.DeserializeObject<IndustrySystem[]>(Encoding.UTF8.GetString(pricesBlob));
 
             Dictionary<long, string> names = new Dictionary<long, string>();
-            using (StreamReader sr = new StreamReader(GetRootDirectory() + "\\data\\cache\\legacy_names.dat"))
+            using (StreamReader sr = new StreamReader(GetRootDirectory() + "/data/cache/legacy_names.dat"))
             {
                 while (!sr.EndOfStream)
                 {
@@ -1228,7 +1228,7 @@ namespace AtomSmasherESITool
                 }
             }
 
-            using (StreamWriter sw = new StreamWriter(GetRootDirectory() + "\\data\\sci.dat"))
+            using (StreamWriter sw = new StreamWriter(GetRootDirectory() + "/data/sci.dat"))
             {
                 sw.WriteLine("solarSystemName\tactivity\tcostIndex");
                 foreach (IndustrySystem system in industrySystems)
