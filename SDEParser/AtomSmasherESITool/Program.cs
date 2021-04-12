@@ -240,34 +240,40 @@ namespace AtomSmasherESITool
         {
             string commandLine = "\"" + GetExpectedPath() + "\" \"Install\" \"%1\"";
 
-            object handlerPath = Registry.GetValue(@"HKEY_CLASSES_ROOT\eveauth-atomsmasher\shell\open\command\", "", null);
-
-            if (handlerPath == null || handlerPath.GetType() != typeof(string) || (string)handlerPath != commandLine)
+            try
             {
-                using (StreamWriter sw = new StreamWriter("uri_handler_install.reg"))
+                object handlerPath = Registry.GetValue(@"HKEY_CLASSES_ROOT\eveauth-atomsmasher\shell\open\command\", "", null);
+
+                if (handlerPath == null || handlerPath.GetType() != typeof(string) || (string)handlerPath != commandLine)
                 {
-                    sw.WriteLine("Windows Registry Editor Version 5.00");
-                    sw.WriteLine();
-                    sw.WriteLine("[HKEY_CLASSES_ROOT\\" + AtomSmasherProtocol + "]");
-                    sw.WriteLine("@=\"URL:Atom Smasher Auth Handler\"");
-                    sw.WriteLine("\"URL Protocol\"=\"\"");
-                    sw.WriteLine();
-                    sw.WriteLine("[HKEY_CLASSES_ROOT\\" + AtomSmasherProtocol + "\\shell]");
-                    sw.WriteLine();
-                    sw.WriteLine("[HKEY_CLASSES_ROOT\\" + AtomSmasherProtocol + "\\shell\\open]");
-                    sw.WriteLine();
-                    sw.WriteLine("[HKEY_CLASSES_ROOT\\" + AtomSmasherProtocol + "\\shell\\open\\command]");
-                    sw.WriteLine("@=\"" + commandLine.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"");
+                    using (StreamWriter sw = new StreamWriter("uri_handler_install.reg"))
+                    {
+                        sw.WriteLine("Windows Registry Editor Version 5.00");
+                        sw.WriteLine();
+                        sw.WriteLine("[HKEY_CLASSES_ROOT\\" + AtomSmasherProtocol + "]");
+                        sw.WriteLine("@=\"URL:Atom Smasher Auth Handler\"");
+                        sw.WriteLine("\"URL Protocol\"=\"\"");
+                        sw.WriteLine();
+                        sw.WriteLine("[HKEY_CLASSES_ROOT\\" + AtomSmasherProtocol + "\\shell]");
+                        sw.WriteLine();
+                        sw.WriteLine("[HKEY_CLASSES_ROOT\\" + AtomSmasherProtocol + "\\shell\\open]");
+                        sw.WriteLine();
+                        sw.WriteLine("[HKEY_CLASSES_ROOT\\" + AtomSmasherProtocol + "\\shell\\open\\command]");
+                        sw.WriteLine("@=\"" + commandLine.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"");
+                    }
+
+                    Console.WriteLine("Atom Smasher's URI handler isn't registered, or is set to the wrong path.");
+                    Console.WriteLine("I've outputted a 'uri_handler_install.reg' file.  Run it, then try authenticating again.");
+                    Console.WriteLine();
+                    Console.WriteLine("To uninstall the URI handler later, run 'uri_handler_uninstall.reg'.");
+                    Console.WriteLine();
+                    CloseoutCountdown(10);
+
+                    return false;
                 }
-
-                Console.WriteLine("Atom Smasher's URI handler isn't registered, or is set to the wrong path.");
-                Console.WriteLine("I've outputted a 'uri_handler_install.reg' file.  Run it, then try authenticating again.");
-                Console.WriteLine();
-                Console.WriteLine("To uninstall the URI handler later, run 'uri_handler_uninstall.reg'.");
-                Console.WriteLine();
-                CloseoutCountdown(10);
-
-                return false;
+            }
+            catch (System.Security.SecurityException)
+            {
             }
 
             return true;
