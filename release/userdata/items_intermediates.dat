@@ -30,6 +30,7 @@ Unrefined Vanadium Hafnite
 @@ Intermediate reactions
 @@
 Caesarium Cadmide
+Carbon Fiber
 Carbon Polymers
 Ceramic Powder
 Crystallite Alloy
@@ -40,6 +41,7 @@ Fluxed Condensates
 Hexite
 Hyperflurite
 Neo Mercurite
+Oxy-Organic Solvents
 Platinum Technite
 Promethium Mercurite
 Prometium
@@ -47,6 +49,7 @@ Rolled Tungsten Alloy
 Silicon Diborite
 Solerium
 Sulfuric Acid
+Thermosetting Polymer
 Thulium Hafnite
 Titanium Chromide
 Vanadium Hafnite
@@ -64,10 +67,52 @@ Nonlinear Metamaterials
 Phenolic Composites
 Photonic Metamaterials
 Plasmonic Metamaterials
+Pressurized Oxidizers
+Reinforced Carbon Fiber
 Sylramic Fibers
 Terahertz Metamaterials
 Titanium Carbide
 Tungsten Carbide
+@@
+@@ T3 reactions
+@@
+C3-FTM Acid
+Carbon-86 Epoxy Resin
+Fullerene Intercalated Graphite
+Fulleroferrocene
+Graphene Nanoribbons
+Lanthanum Metallofullerene
+Methanofullerene
+PPD Fullerene Fibers
+Scandium Metallofullerene
+@@
+@@ Molecular-Forged Materials
+@@
+Axosomatic Neurolink Enhancer
+Cogni-Emotive Neurolink Enhancer
+Goal-Orienting Neurolink Stabilizer
+Hypnagogic Neurolink Enhancer
+Isotropic Neofullerene Alpha-3
+Isotropic Neofullerene Beta-6
+Isotropic Neofullerene Gamma-9
+Reaction-Orienting Neurolink Stabilizer
+Sense-Heuristic Neurolink Enhancer
+Stress-Responding Neurolink Stabilizer
+Ultradian-Cycling Neurolink Stabilizer
+Meta-Operant Neurolink Enhancer
+@@
+@@ Protective Components
+@@
+Auto-Integrity Preservation Seal
+Core Temperature Regulator
+Capital Core Temperature Regulator
+Genetic Lock Preserver
+Genetic Mutation Inhibiter
+Genetic Structure Repairer
+Genetic Safeguard Filter
+Life Support Backup Unit
+Programmable Purification Membrane
+Neurolink Enhancer Reservoir
 @@
 @@ T2 components
 @@
@@ -83,6 +128,7 @@ Oscillator Capacitor Unit
 Tesseract Capacitor Unit
 Scalar Capacitor Unit
 EM Pulse Generator
+G-O Trigger Neurolink Conduit
 Graviton Pulse Generator
 Nuclear Pulse Generator
 Plasma Pulse Generator
@@ -97,7 +143,9 @@ Plasma Thruster
 Gravimetric Sensor Cluster
 Ladar Sensor Cluster
 Magnetometric Sensor Cluster
+R-O Trigger Neurolink Conduit
 Radar Sensor Cluster
+S-R Trigger Neurolink Conduit
 Laser Focusing Crystals
 Particle Accelerator Unit
 Superconductor Rails
@@ -115,6 +163,74 @@ R.A.M.- Electronics
 R.A.M.- Ammunition Tech
 R.A.M.- Energy Tech
 R.A.M.- Shield Tech
+U-C Trigger Neurolink Conduit
+@@
+@@ T1 Capital Components
+@@
+Capital Armor Plates
+Capital Capacitor Battery
+Capital Cargo Bay
+Capital Clone Vat Bay
+Capital Computer System
+Capital Construction Parts
+Capital Corporate Hangar Bay
+Capital Doomsday Weapon Mount
+Capital Drone Bay
+Capital Jump Bridge Array
+Capital Jump Drive
+Capital Launcher Hardpoint
+Capital Power Generator
+Capital Propulsion Engine
+Capital Sensor Cluster
+Capital Shield Emitter
+Capital Ship Maintenance Bay
+Capital Siege Array
+Capital Turret Hardpoint
+Enhanced Neurolink Protection Cell
+Neurolink Protection Cell
+@@
+@@ T2 Capital Components
+@@
+Capital Antimatter Reactor Unit
+Capital Crystalline Carbonide Armor Plate
+Capital Deflection Shield Emitter
+Capital Electrolytic Capacitor Unit
+Capital EM Pulse Generator
+Capital Fernite Carbide Composite Armor Plate
+Capital Fusion Reactor Unit
+Capital Fusion Thruster
+Capital Gravimetric Sensor Cluster
+Capital Graviton Pulse Generator
+Capital Graviton Reactor Unit
+Capital Ion Thruster
+Capital Ladar Sensor Cluster
+Capital Laser Focusing Crystals
+Capital Linear Shield Emitter
+Capital Magnetometric Sensor Cluster
+Capital Magpulse Thruster
+Capital Nanoelectrical Microprocessor
+Capital Nanomechanical Microprocessor
+Capital Nuclear Pulse Generator
+Capital Nuclear Reactor Unit
+Capital Oscillator Capacitor Unit
+Capital Particle Accelerator Unit
+Capital Photon Microprocessor
+Capital Plasma Pulse Generator
+Capital Plasma Thruster
+Capital Pulse Shield Emitter
+Capital Quantum Microprocessor
+Capital Radar Sensor Cluster
+Capital Scalar Capacitor Unit
+Capital Superconductor Rails
+Capital Sustained Shield Emitter
+Capital Tesseract Capacitor Unit
+Capital Thermonuclear Trigger Unit
+Capital Titanium Diborite Armor Plate
+Capital Tungsten Carbide Armor Plate
+Gravimetric-FTL Interlink Communicator
+Ladar-FTL Interlink Communicator
+Magnetometric-FTL Interlink Communicator
+Radar-FTL Interlink Communicator
 @@
 @@ T1 ships
 @@
@@ -243,18 +359,6 @@ Nuclear M
 @@
 No Decryptor
 @@
-@@ T3 reactions
-@@
-C3-FTM Acid
-Carbon-86 Epoxy Resin
-Fullerene Intercalated Graphite
-Fulleroferrocene
-Graphene Nanoribbons
-Lanthanum Metallofullerene
-Methanofullerene
-PPD Fullerene Fibers
-Scandium Metallofullerene
-@@
 @@ T3 components
 @@
 Electromechanical Interface Nexus
@@ -273,3 +377,9 @@ Superconducting Ladar Amplifier
 Superconducting Magnetometric Amplifier
 Superconducting Radar Amplifier
 Warfare Computation Core
+@@
+@@ Triglavian Components
+@@
+Capital Ultratidal Entropic Mounting
+Capital Absorption Thruster Array
+Capital Radiation Conversion Unit
