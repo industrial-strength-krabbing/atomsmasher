@@ -216,6 +216,10 @@ for _,row in ipairs(reactionsComplexDB.rows) do
 		local bestTimeEfficientCost = cost
 
 		local sellPrice = marketTable[item]
+		if sellPrice == nil then
+			print("Missing sell price for item "..item..", forcing it to "..tostring(cost).." (its cost)")
+			sellPrice = cost
+		end
 
 		local bestTimeEfficientTime = time
 		local bestCostTime = time
