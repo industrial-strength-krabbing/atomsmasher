@@ -153,7 +153,7 @@ namespace ESIHandler
 
         List<CharacterAuthInfo> ReadAuthTokens()
         {
-            string authTokensPath = GetRootDirectory() + "\\" + tokenFilePath;
+            string authTokensPath = GetRootDirectory() + "/" + tokenFilePath;
 
             try
             {
@@ -192,7 +192,7 @@ namespace ESIHandler
 
         void WriteAuthTokens(IReadOnlyList<CharacterAuthInfo> authInfos)
         {
-            string authTokensPath = GetRootDirectory() + "\\" + tokenFilePath;
+            string authTokensPath = GetRootDirectory() + "/" + tokenFilePath;
 
             using (StreamWriter sw = new StreamWriter(authTokensPath))
             {
@@ -368,7 +368,7 @@ namespace ESIHandler
             GetSSOParameters(GetDefaultScopes(), out key, out authState, out uri);
 
             Console.WriteLine("Writing pending auth config...");
-            using (StreamWriter sw = new StreamWriter(GetRootDirectory() + "\\" + pendingAuthPath))
+            using (StreamWriter sw = new StreamWriter(GetRootDirectory() + "/" + pendingAuthPath))
             {
                 sw.WriteLine(UrlSafeBase64Encode(key));
                 sw.WriteLine(authState);
@@ -468,7 +468,7 @@ namespace ESIHandler
                 queryParams[WebUtility.UrlDecode(key)] = WebUtility.UrlDecode(value);
             }
 
-            string pendingAuthPath = GetRootDirectory() + "\\" + this.pendingAuthPath;
+            string pendingAuthPath = GetRootDirectory() + "/" + this.pendingAuthPath;
 
             if (!File.Exists(pendingAuthPath))
             {
@@ -570,7 +570,7 @@ namespace ESIHandler
 
                 HttpWebResponse response;
 
-                string queryCachePath = GetRootDirectory() + "\\data\\cache\\queries\\" + queryName + ".cache";
+                string queryCachePath = GetRootDirectory() + "/data/cache/queries/" + queryName + ".cache";
                 if (File.Exists(queryCachePath))
                 {
                     using (FileStream fs = new FileStream(queryCachePath, FileMode.Open, FileAccess.Read))

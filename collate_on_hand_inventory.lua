@@ -74,8 +74,13 @@ end
 
 for _,row in ipairs(assetsDB.rows) do
 	if row.is_singleton == "false" and row.location_flag == "Hangar" and allowedSolarSystems[row.solar_system_name] then
-		local itemName = namesDB.keyBy.id[row.type_id].name
-		appendItem(itemName, row.quantity)
+		local namesRow = namesDB.keyBy.id[row.type_id]
+		if namesRow == nil then
+			print("Unknown item ID "..row.type_id)
+		else
+			local itemName = namesRow.name
+			appendItem(itemName, row.quantity)
+		end
 	end
 end
 
