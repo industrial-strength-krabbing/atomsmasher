@@ -113,10 +113,14 @@ local assetFile = io.open("userdata/on_hand_inventory.csv", "w")
 assetFile:write("item,quantity\n")
 
 for _,itemName in ipairs(sortedItemNames) do
-	assetFile:write(itemName)
-	assetFile:write(",")
-	assetFile:write(itemQuantities[itemName])
-	assetFile:write("\n")
+	-- HACK: Filter out items with commas like "Me, Myself, and Plunder"
+	-- I don't think any of these are industry items, and they screw up the tab loader
+	if string.find(itemName, ",") == nil then
+		assetFile:write(itemName)
+		assetFile:write(",")
+		assetFile:write(itemQuantities[itemName])
+		assetFile:write("\n")
+	end
 end
 
 assetFile:close()
