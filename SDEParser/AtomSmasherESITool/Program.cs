@@ -202,8 +202,8 @@ namespace AtomSmasherESITool
         const string AtomSmasherPendingAuthPath = "data/auth_pending.txt";
         const string AtomSmasherTokenPath = "data/auth_token.txt";
         const string AtomSmasherLocationCachePath = "data/cache/locations.dat";
-        const string AtomSmasherApplicationName = "data/cache/locations.dat";
-        const int AtomSmasherLocationCacheVersion = 2;
+        const string AtomSmasherApplicationName = "Atom Smasher";
+        const int AtomSmasherLocationCacheVersion = 3;
 
         const string ESIPrefix = "https://esi.evetech.net/latest";
 
@@ -481,6 +481,8 @@ namespace AtomSmasherESITool
             Dictionary<long, LocationInfo> locationCache = LoadLocationCache();
 
             HashSet<long> unknownLocations = new HashSet<long>();
+            Dictionary<long, long> unknownLocationCharacterID = new Dictionary<long, long>();
+
 
             foreach (long locationID in locationSeenOnCharacter.Keys)
             {
@@ -490,6 +492,14 @@ namespace AtomSmasherESITool
                     continue;
 
                 unknownLocations.Add(topLevelLocationID);
+                if (!unknownLocationCharacterID.ContainsKey(topLevelLocationID))
+                {
+                    long characterID = 0;
+                    if (!locationSeenOnCharacter.TryGetValue(topLevelLocationID, out characterID))
+                        characterID = locationSeenOnCharacter[locationID];
+
+                    unknownLocationCharacterID[topLevelLocationID] = characterID;
+                }
             }
 
             if (unknownLocations.Count > 0)
@@ -556,7 +566,7 @@ namespace AtomSmasherESITool
                         try
                         {
                             int numPages;
-                            byte[] structureBlob = esiHandler.ExecuteSecureESIQuery("/universe/structures/" + locationID.ToString() + "/", locationSeenOnCharacter[locationID], queryParams, true, out numPages);
+                            byte[] structureBlob = esiHandler.ExecuteSecureESIQuery("/universe/structures/" + locationID.ToString() + "/", unknownLocationCharacterID[locationID], queryParams, true, out numPages);
                             StructureInfo structure = JsonConvert.DeserializeObject<StructureInfo>(Encoding.ASCII.GetString(structureBlob));
 
                             unknownLocations.Remove(locationID);
@@ -573,7 +583,7 @@ namespace AtomSmasherESITool
                             numResolvedCitadels++;
 
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             Console.WriteLine("Error when trying to resolve structure " + locationID.ToString());
                             Console.WriteLine("    (Usually this means you don't have docking rights, or it's a customs office)");
