@@ -102,7 +102,7 @@ local function FindDependencies(tree, item, isPrimary)
 
 	deps = { }
 	tree[item] = deps
-	if isPrimary or IsAutoBuild(item) then
+	if isPrimary or (config.enableAutoBuild and IsAutoBuild(item)) then
 		local blueprint = bpdb[item]
 		local reaction = reactionsDB.keyBy.item[item]
 
