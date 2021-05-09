@@ -14,6 +14,10 @@ config =
 
 	-- Set this to true to enable reactions in shopping lists
 	enableReactionsInShoppingLists = true,
+	
+	-- Set this to true to enable "auto-build" in shopping lists, which determines if an item should be built
+	-- or purchased based on its market price vs. build price.
+	enableAutoBuild = false,
 
 	-- Set this to show surplus-adjusted expenditures (good for appraisal)
 	showExpenditures = false,
