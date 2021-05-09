@@ -102,7 +102,7 @@ local function FindDependencies(tree, item, isPrimary)
 
 	deps = { }
 	tree[item] = deps
-	if isPrimary or (config.enableAutoBuild and IsAutoBuild(item)) then
+	if isPrimary or IsAutoBuild(item) then
 		local blueprint = bpdb[item]
 		local reaction = reactionsDB.keyBy.item[item]
 
@@ -110,7 +110,7 @@ local function FindDependencies(tree, item, isPrimary)
 			for mat,quantity in pairs(blueprint.materials) do
 				deps[mat] = FindDependencies(tree, mat)
 			end
-		elseif reaction then
+		elseif reaction ~= nil then
 			if config.enableReactionsInShoppingLists then
 				if config.alchemy[item]  then
 					local parent = alchemyParentDB.keyBy.item[item].parent
@@ -122,7 +122,9 @@ local function FindDependencies(tree, item, isPrimary)
 				end
 			end
 		else
-			print("Couldn't find materials for intermediate "..item)
+			if isPrimary then
+				print("Couldn't find materials for intermediate "..item)
+			end
 		end
 	end
 
