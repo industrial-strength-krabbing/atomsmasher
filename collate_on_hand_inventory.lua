@@ -89,6 +89,12 @@ for _,item in ipairs({"CorpDeliveries", "CorpSAG1", "CorpSAG2", "CorpSAG3", "Cor
 	validCorpHangars[item] = true
 end
 
+if config.collateIgnoreHangars then
+	for _,item in ipairs(config.collateIgnoreHangars) do
+		validCorpHangars[item] = nil
+	end
+end
+
 for _,row in ipairs(corpAssetsDB.rows) do
 	if row.is_singleton == "false" and validCorpHangars[row.location_flag] and allowedSolarSystems[row.solar_system_name] then
 		local namesRow = namesDB.keyBy.id[row.type_id]

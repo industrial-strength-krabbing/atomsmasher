@@ -70,6 +70,12 @@ config =
 		"Jita",
 	},
 
+	-- List of hangars to ignore
+	collateIgnoreHangars =
+	{
+		--"CorpSAG2",
+	},
+
 	-- System to invent in
 	inventionSystem = "Jita",
 
