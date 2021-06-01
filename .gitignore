@@ -4,3 +4,5 @@ outputs/*
 userdata/*
 .vs
 *.user
+*.zip
+uri_handler_install.reg
