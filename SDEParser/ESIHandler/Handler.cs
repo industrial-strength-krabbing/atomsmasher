@@ -591,7 +591,7 @@ namespace ESIHandler
                                 }
                                 catch (WebException we)
                                 {
-                                    response = response = (HttpWebResponse)we.Response;
+                                    response = (HttpWebResponse)we.Response;
 
                                     if (response.StatusCode != HttpStatusCode.NotModified)
                                         throw;
