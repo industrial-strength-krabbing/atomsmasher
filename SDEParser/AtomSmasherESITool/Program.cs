@@ -901,18 +901,27 @@ namespace AtomSmasherESITool
                 queryParams[0] = new KeyValuePair<string, string>("include_completed", "false");
 
                 int numPages;
-                byte[] jobsBlob = esiHandler.ExecuteSecureESIQuery("/corporations/" + corporationID.ToString() + "/industry/jobs/", characterID, queryParams, true, out numPages);
 
-                CharacterIndustryJob[] industryJobs = JsonConvert.DeserializeObject<CharacterIndustryJob[]>(Encoding.ASCII.GetString(jobsBlob));
-                corpJobs.AddRange(industryJobs);
-
-                foreach (CharacterIndustryJob job in industryJobs)
+                try
                 {
-                    AddIfNotExists(locationSeenOnCharacter, job.blueprint_location_id, characterID);
-                    AddIfNotExists(locationSeenOnCharacter, job.output_location_id, characterID);
-                }
+                    byte[] jobsBlob = esiHandler.ExecuteSecureESIQuery("/corporations/" + corporationID.ToString() + "/industry/jobs/", characterID, queryParams, true, out numPages);
 
-                allCorpJobs[corporationID] = corpJobs;
+                    CharacterIndustryJob[] industryJobs = JsonConvert.DeserializeObject<CharacterIndustryJob[]>(Encoding.ASCII.GetString(jobsBlob));
+                    corpJobs.AddRange(industryJobs);
+
+                    foreach (CharacterIndustryJob job in industryJobs)
+                    {
+                        AddIfNotExists(locationSeenOnCharacter, job.blueprint_location_id, characterID);
+                        AddIfNotExists(locationSeenOnCharacter, job.output_location_id, characterID);
+                    }
+
+                    allCorpJobs[corporationID] = corpJobs;
+                }
+                catch (WebException ex)
+                {
+                    Console.WriteLine("Industry jobs endpoint is still dead.  Great job, CCP!  Corp industry outputs will be excluded.");
+                    break;
+                }
             }
 
             Console.WriteLine("Resolving asset hierarchy...");
