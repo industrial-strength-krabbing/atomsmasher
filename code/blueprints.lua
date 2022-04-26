@@ -200,6 +200,7 @@ bpMeta = {
 			bp.chance = resultSuccess
 			bp.runs = resultRuns
 			bp.buildTime = self.buildTime
+			bp.copyTime = 0
 			bp:ApplyWaste(structureMatRoleBonus, structureRigBonus)
 
 			return bp
@@ -242,6 +243,9 @@ bpMeta = {
 				eivMaterials = self.eivMaterials,
 				tools = self.tools,
 				buildTime = self.buildTime,
+				copyTime = self.copyTime,
+				blueprintBasePrice = self.blueprintBasePrice,
+				maxRuns = self.maxRuns,
 			}
 
 			setmetatable(bp, bpMeta)
@@ -257,7 +261,8 @@ createBlueprint = function(item, mats, eivMats)
 		pe = 0,
 		materials = mats,
 		eivMaterials = eivMats,
-		tools = { }
+		blueprintBasePrice = 0,
+		maxRuns = 1,
 	}
 
 	setmetatable(bp, bpMeta)
@@ -325,6 +330,7 @@ blueprints =
 				blueprints[row.item].maxRuns = row.maxRuns
 				blueprints[row.item].buildTime = row.buildTime
 				blueprints[row.item].inventTime = row.inventTime
+				blueprints[row.item].blueprintBasePrice = assert(row.blueprintBasePrice)
 				idToItem[row.blueprintID] = row.item
 			end
 		end

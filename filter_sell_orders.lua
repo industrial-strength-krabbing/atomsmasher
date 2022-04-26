@@ -132,7 +132,7 @@ local function main()
 
 	local integrateDatabase = function(marketDB)
 		for _,row in ipairs(marketDB.rows) do
-			if row.quantity ~= 0 then	-- Sometimes the market API returns 0 quantity sell orders for some reason (???)
+			if row.quantity ~= 0 then	-- Sometimes the market API returns 0 quantity sell orders for some insane reason
 				local typeID = row["typeID"]
 				local typeRows = collatedMarketOrders[typeID]
 				if typeRows == nil then

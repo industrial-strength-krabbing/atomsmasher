@@ -560,6 +560,8 @@ namespace ESIHandler
             if (auth != null)
                 uri += "&token=" + auth;
 
+            int numTries = 5;
+
             pages = -1;
 
             if (cacheable)
@@ -568,7 +570,7 @@ namespace ESIHandler
 
                 string queryName = UrlSafeBase64Encode(hash.ComputeHash(Encoding.ASCII.GetBytes(basicURI)));
 
-                HttpWebResponse response;
+                HttpWebResponse response = null;
 
                 string queryCachePath = GetRootDirectory() + "/data/cache/queries/" + queryName + ".cache";
                 if (File.Exists(queryCachePath))
@@ -581,20 +583,28 @@ namespace ESIHandler
                             {
                                 string etag = br.ReadString();
 
-                                HttpWebRequest webRequest = WebRequest.CreateHttp(uri);
-                                webRequest.Method = "GET";
-                                webRequest.Headers.Add("If-None-Match", etag);
-
-                                try
+                                HttpWebRequest webRequest = null;
+                                for (int tryNum = 0; tryNum < numTries; tryNum++)
                                 {
-                                    response = (HttpWebResponse)webRequest.GetResponse();
-                                }
-                                catch (WebException we)
-                                {
-                                    response = (HttpWebResponse)we.Response;
+                                    webRequest = WebRequest.CreateHttp(uri);
+                                    webRequest.Method = "GET";
+                                    webRequest.Headers.Add("If-None-Match", etag);
 
-                                    if (response.StatusCode != HttpStatusCode.NotModified)
-                                        throw;
+                                    try
+                                    {
+                                        response = (HttpWebResponse)webRequest.GetResponse();
+                                        break;
+                                    }
+                                    catch (WebException we)
+                                    {
+                                        response = (HttpWebResponse)we.Response;
+
+                                        if (response.StatusCode == HttpStatusCode.NotModified)
+                                            break;
+
+                                        if (tryNum == numTries - 1)
+                                            throw;
+                                    }
                                 }
 
                                 if (response.StatusCode == HttpStatusCode.NotModified)
@@ -618,10 +628,24 @@ namespace ESIHandler
                 }
                 else
                 {
-                    HttpWebRequest webRequest = WebRequest.CreateHttp(uri);
-                    webRequest.Method = "GET";
+                    HttpWebRequest webRequest = null;
 
-                    response = (HttpWebResponse)webRequest.GetResponse();
+                    for (int tryNum = 0; tryNum < numTries; tryNum++)
+                    {
+                        webRequest = WebRequest.CreateHttp(uri);
+                        webRequest.Method = "GET";
+
+                        try
+                        {
+                            response = (HttpWebResponse)webRequest.GetResponse();
+                            break;
+                        }
+                        catch (WebException we)
+                        {
+                            if (tryNum == numTries - 1)
+                                throw;
+                        }
+                    }
                 }
 
                 byte[] bytes;
@@ -659,13 +683,26 @@ namespace ESIHandler
             }
             else
             {
+                HttpWebRequest webRequest = null;
+                HttpWebResponse response = null;
+                for (int tryNum = 0; tryNum < numTries; tryNum++)
+                {
+                    webRequest = WebRequest.CreateHttp(uri);
+                    webRequest.Method = "GET";
+                    if (auth != null)
+                        webRequest.Headers.Add("Authorizaton", "Bearer " + auth);
 
-                HttpWebRequest webRequest = WebRequest.CreateHttp(uri);
-                webRequest.Method = "GET";
-                if (auth != null)
-                    webRequest.Headers.Add("Authorizaton", "Bearer " + auth);
+                    try
+                    {
+                        response = (HttpWebResponse)webRequest.GetResponse();
+                    }
+                    catch (WebException we)
+                    {
+                        if (tryNum == numTries - 1)
+                            throw;
+                    }
+                }
 
-                HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
                 byte[] bytes;
                 using (MemoryStream ms = new MemoryStream())
                 {

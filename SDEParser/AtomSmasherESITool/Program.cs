@@ -88,6 +88,43 @@ namespace AtomSmasherESITool
         public int successful_runs { get; set; }
     }
 
+    public class ContractInfo
+    {
+        public int acceptor_id { get; set; }
+        public int assignee_id { get; set; }
+        public string availability { get; set; }
+        public double buyout { get; set; }
+        public double collateral { get; set; }
+        public int contract_id { get; set; }
+        public string date_accepted { get; set; }
+        public string date_completed { get; set; }
+        public string date_expired { get; set; }
+        public string date_issued { get; set; }
+        public int days_to_complete { get; set; }
+        public long end_location_id { get; set; }
+        public bool for_corporation { get; set; }
+        public int issuer_corporation_id { get; set; }
+        public int issuer_id { get; set; }
+        public double price { get; set; }
+        public double reward { get; set; }
+        public long start_location_id { get; set; }
+        public string status { get; set; }
+        public string title { get; set; }
+        public string type { get; set; }
+        public double volume { get; set; }
+
+    }
+
+    public class ContractItem
+    {
+        public bool is_included { get; set; }
+        public bool is_singleton { get; set; }
+        public int quantity { get; set; }
+        public int raw_quantity { get; set; }
+        public long record_id { get; set; }
+        public int type_id { get; set; }
+    }
+
     public class CharacterPublicInfo
     {
         public int ancestry_id { get; set; }
@@ -223,6 +260,8 @@ namespace AtomSmasherESITool
             scopes.Add("esi-industry.read_character_jobs.v1");
             scopes.Add("esi-industry.read_corporation_jobs.v1");
             scopes.Add("esi-markets.structure_markets.v1");
+            scopes.Add("esi-contracts.read_character_contracts.v1");
+            scopes.Add("esi-contracts.read_corporation_contracts.v1");
 
             return scopes;
         }
@@ -746,10 +785,14 @@ namespace AtomSmasherESITool
             string locationsDumpLocation = GetRootDirectory() + "/data/cache/asset_locations.dat";
             string industryJobsDumpLocation = GetRootDirectory() + "/data/cache/industry_jobs.dat";
             string corpIndustryJobsDumpLocation = GetRootDirectory() + "/data/cache/industry_jobs_corp.dat";
+            string contractsDumpLocation = GetRootDirectory() + "/data/cache/contracts.dat";
+            string contractsItemsDumpLocation = GetRootDirectory() + "/data/cache/contracts_items.dat";
+            string contractsCacheLocation = GetRootDirectory() + "/data/cache/contracts_cache.dat";
 
             Dictionary<long, long> charCorps = new Dictionary<long, long>();
             Dictionary<long, long> directorRoles = new Dictionary<long, long>();        // Corp --> character
             Dictionary<long, long> factoryManagerRoles = new Dictionary<long, long>();  // Corp --> character
+            Dictionary<long, long> contractManagerRoles = new Dictionary<long, long>(); // Corp --> character
 
             Dictionary<long, List<CharacterAsset>> allCharAssets = new Dictionary<long, List<CharacterAsset>>();
             Dictionary<long, List<CharacterIndustryJob>> allCharJobs = new Dictionary<long, List<CharacterIndustryJob>>();
@@ -793,6 +836,8 @@ namespace AtomSmasherESITool
                                 directorRoles[corporationID] = c.CharacterID;
                             if (role == "Factory_Manager")
                                 factoryManagerRoles[corporationID] = c.CharacterID;
+                            if (role == "Contract_Manager")
+                                contractManagerRoles[corporationID] = c.CharacterID;
                         }
                     }
                 }
@@ -918,6 +963,126 @@ namespace AtomSmasherESITool
                 }
             }
 
+            HashSet<int> alreadySeenContractIDs = new HashSet<int>();
+            List<ContractInfo> allContracts = new List<ContractInfo>();
+            Dictionary<int, ContractItem[]> allContractItems = new Dictionary<int, ContractItem[]>();
+            Dictionary<int, ContractItem[]> cachedContracts = new Dictionary<int, ContractItem[]>();
+
+            if (File.Exists(contractsCacheLocation))
+            {
+                try
+                {
+                    string contractsCacheStr = File.ReadAllText(contractsCacheLocation);
+                    cachedContracts = JsonConvert.DeserializeObject<Dictionary<int, ContractItem[]>>(contractsCacheStr);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Failed to load contract cache");
+                }
+            }
+
+            foreach (CharacterInfo c in chars)
+            {
+                Console.WriteLine("Fetching contracts for " + c.Name + "...");
+
+                KeyValuePair<string, string>[] queryParams = new KeyValuePair<string, string>[1];
+
+                List<ContractInfo> interestingContracts = new List<ContractInfo>();
+
+                int numPages = 1;
+                for (int page = 1; page <= numPages; page++)
+                {
+                    queryParams[0] = new KeyValuePair<string, string>("page", page.ToString());
+                    byte[] contractsBlob = esiHandler.ExecuteSecureESIQuery("/characters/" + c.CharacterID.ToString() + "/contracts/", c.CharacterID, queryParams, true, out numPages);
+
+                    ContractInfo[] contracts = JsonConvert.DeserializeObject<ContractInfo[]>(Encoding.ASCII.GetString(contractsBlob));
+
+                    foreach (ContractInfo contract in contracts)
+                    {
+                        if (contract.status == "outstanding" && contract.availability != "personal" && !alreadySeenContractIDs.Contains(contract.contract_id) && contract.assignee_id != c.CharacterID)
+                        {
+                            interestingContracts.Add(contract);
+                            alreadySeenContractIDs.Add(contract.contract_id);
+                        }
+                    }
+
+                    Console.WriteLine("Page " + page.ToString() + " / " + numPages.ToString() + " retrieved");
+                }
+
+                for (int ci = 0; ci < interestingContracts.Count; ci++)
+                {
+                    ContractInfo contract = interestingContracts[ci];
+
+                    ContractItem[] contractItems;
+                    if (!cachedContracts.TryGetValue(contract.contract_id, out contractItems))
+                    {
+                        int contractNumPages = 1;
+                        byte[] contractsBlob = esiHandler.ExecuteSecureESIQuery("/characters/" + c.CharacterID.ToString() + "/contracts/" + contract.contract_id + "/items/", c.CharacterID, queryParams, true, out contractNumPages);
+
+                        contractItems = JsonConvert.DeserializeObject<ContractItem[]>(Encoding.ASCII.GetString(contractsBlob));
+
+                        Console.WriteLine("Contract contents " + (ci + 1).ToString() + " / " + interestingContracts.Count.ToString() + " retrieved");
+                    }
+                    allContractItems[contract.contract_id] = contractItems;
+                }
+            }
+
+            foreach (KeyValuePair<long, long> corpChar in contractManagerRoles)
+            {
+                long corporationID = corpChar.Key;
+                long characterID = corpChar.Value;
+
+                Console.WriteLine("Fetching corporation contracts via " + charNames[characterID] + "...");
+
+                KeyValuePair<string, string>[] queryParams = new KeyValuePair<string, string>[1];
+
+                List<ContractInfo> interestingContracts = new List<ContractInfo>();
+
+                int numPages = 1;
+                for (int page = 1; page <= numPages; page++)
+                {
+                    queryParams[0] = new KeyValuePair<string, string>("page", page.ToString());
+                    byte[] contractsBlob = esiHandler.ExecuteSecureESIQuery("/corporations/" + corporationID.ToString() + "/contracts/", characterID, queryParams, true, out numPages);
+
+                    ContractInfo[] contracts = JsonConvert.DeserializeObject<ContractInfo[]>(Encoding.ASCII.GetString(contractsBlob));
+
+                    foreach (ContractInfo contract in contracts)
+                    {
+                        if (contract.status == "outstanding" && contract.availability != "personal" && !alreadySeenContractIDs.Contains(contract.contract_id) && contract.assignee_id != corporationID)
+                        {
+                            interestingContracts.Add(contract);
+                            alreadySeenContractIDs.Add(contract.contract_id);
+                        }
+                    }
+
+                    Console.WriteLine("Page " + page.ToString() + " / " + numPages.ToString() + " retrieved");
+                }
+
+                for (int ci = 0; ci < interestingContracts.Count; ci++)
+                {
+                    ContractInfo contract = interestingContracts[ci];
+
+                    ContractItem[] contractItems;
+                    if (!cachedContracts.TryGetValue(contract.contract_id, out contractItems))
+                    {
+                        int contractNumPages = 1;
+                        byte[] contractsBlob = esiHandler.ExecuteSecureESIQuery("/corporations/" + corporationID.ToString() + "/contracts/" + contract.contract_id + "/items/", characterID, queryParams, true, out contractNumPages);
+
+                        contractItems = JsonConvert.DeserializeObject<ContractItem[]>(Encoding.ASCII.GetString(contractsBlob));
+
+                        Console.WriteLine("Contract contents " + (ci + 1).ToString() + " / " + interestingContracts.Count.ToString() + " retrieved");
+                    }
+                    allContractItems[contract.contract_id] = contractItems;
+                }
+            }
+
+            Console.WriteLine("Saving contract cache...");
+
+            {
+                string contractCacheStr = JsonConvert.SerializeObject(allContractItems);
+                File.WriteAllText(contractsCacheLocation, contractCacheStr);
+            }
+
             Console.WriteLine("Resolving asset hierarchy...");
 
             Dictionary<long, long> assetParent = new Dictionary<long, long>();
@@ -1033,6 +1198,39 @@ namespace AtomSmasherESITool
                         sw.Write(ResolveLocationSolarSystem(job.output_location_id, assetParent, locationCache));
                         sw.Write("\t");
                         WriteProperties(job, sw);
+                        sw.WriteLine();
+                    }
+                }
+            }
+
+            using (StreamWriter sw = new StreamWriter(contractsDumpLocation))
+            {
+                CultureInfo us = new CultureInfo("en-US");     // So we get US-format decimals
+
+                sw.WriteLine("contractID\tprice");
+                foreach (ContractInfo contract in allContracts)
+                    sw.WriteLine(contract.contract_id + "\t" + contract.price.ToString());
+            }
+
+            using (StreamWriter sw = new StreamWriter(contractsItemsDumpLocation))
+            {
+                sw.WriteLine("contractID\titemID\trawQuantity\tquantity");
+                foreach (KeyValuePair<int, ContractItem[]> contract in allContractItems)
+                {
+                    int contractID = contract.Key;
+
+                    foreach (ContractItem item in contract.Value)
+                    {
+                        if (!item.is_included)
+                            continue;
+
+                        sw.Write(contractID);
+                        sw.Write("\t");
+                        sw.Write(item.type_id);
+                        sw.Write("\t");
+                        sw.Write(item.raw_quantity);
+                        sw.Write("\t");
+                        sw.Write(item.quantity);
                         sw.WriteLine();
                     }
                 }

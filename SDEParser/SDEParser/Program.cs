@@ -410,6 +410,11 @@ namespace SDEParser
 
                         double productionTime = activityNameActivity.Value.time;
 
+                        TypeID blueprintTypeID;
+                        double blueprintBasePrice = 0.0;
+                        if (typeIDs.TryGetValue(bpidBlueprint.Key, out blueprintTypeID))
+                            blueprintBasePrice = blueprintTypeID.basePrice;
+
                         foreach (BlueprintActivityProduct product in activityNameActivity.Value.products)
                         {
                             double researchCopyTime = 0.0;
@@ -452,6 +457,8 @@ namespace SDEParser
                             sw.Write(NameGroup(groupIDs, typeIDs, product.typeID));
                             sw.Write("\t");
                             sw.Write(bpidBlueprint.Key.ToString());
+                            sw.Write("\t");
+                            sw.Write(blueprintBasePrice.ToString());
                             sw.WriteLine();
                         }
                     }
@@ -559,21 +566,24 @@ namespace SDEParser
             using (StreamWriter sw = new StreamWriter("data/blueprints_t2.csv"))
             {
                 int techIImetaGroup = 0;
+                int structureTechIImetaGroup = 0;
 
                 foreach (KeyValuePair<int, MetaGroup> metaGroupPair in metaGroups)
                 {
                     string metaGroupName;
-                    if (metaGroupPair.Value.nameID.TryGetValue("en", out metaGroupName) && metaGroupName == "Tech II")
+                    if (metaGroupPair.Value.nameID.TryGetValue("en", out metaGroupName))
                     {
-                        techIImetaGroup = metaGroupPair.Key;
-                        break;
+                        if (metaGroupName == "Tech II")
+                            techIImetaGroup = metaGroupPair.Key;
+                        if (metaGroupName == "Structure Tech II")
+                            structureTechIImetaGroup = metaGroupPair.Key;
                     }
                 }
 
                 foreach (KeyValuePair<int, TypeID> typeIDPair in typeIDs)
                 {
                     TypeID parentTypeID;
-                    if (typeIDPair.Value.metaGroupID == techIImetaGroup && typeIDPair.Value.variationParentTypeID != null && typeIDs.TryGetValue((int)typeIDPair.Value.variationParentTypeID, out parentTypeID))
+                    if ((typeIDPair.Value.metaGroupID == techIImetaGroup || typeIDPair.Value.metaGroupID == structureTechIImetaGroup) && typeIDPair.Value.variationParentTypeID != null && typeIDs.TryGetValue((int)typeIDPair.Value.variationParentTypeID, out parentTypeID))
                     {
                         sw.Write(parentTypeID.name["en"]);
                         sw.Write("\t");

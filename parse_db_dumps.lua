@@ -84,12 +84,12 @@ mqDB = nil
 
 -- Dump properties
 print("Loading properties DB...")
-local propDB = loadTabFile("data/blueprints_properties.csv", { "item", "copyTime", "inventTime", "inventProbability", "inventRuns", "buildTime", "maxRuns", "productCategory", "blueprintID" }, "\t" )
+local propDB = loadTabFile("data/blueprints_properties.csv", { "item", "copyTime", "inventTime", "inventProbability", "inventRuns", "buildTime", "maxRuns", "productCategory", "blueprintID", "blueprintBasePrice" }, "\t" )
 
 local propFile = io.open("data/cache/blueprints_properties.dat", "w")
-propFile:write("item\tcopyTime\tinventTime\tinventedRuns\tbuildTime\tmaxRuns\tblueprintID\n")
+propFile:write("item\tcopyTime\tinventTime\tinventedRuns\tbuildTime\tmaxRuns\tblueprintID\tblueprintBasePrice\n")
 for _,item in ipairs(propDB.rows) do
-	propFile:write(item.item.."\t"..item.copyTime.."\t"..item.inventTime.."\t"..item.inventRuns.."\t"..item.buildTime.."\t"..item.maxRuns.."\t"..item.blueprintID.."\n")
+	propFile:write(item.item.."\t"..item.copyTime.."\t"..item.inventTime.."\t"..item.inventRuns.."\t"..item.buildTime.."\t"..item.maxRuns.."\t"..item.blueprintID.."\t"..item.blueprintBasePrice.."\n")
 end
 propFile:close()
 

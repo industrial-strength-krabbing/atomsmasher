@@ -156,6 +156,12 @@ local function main()
 	local itemGranularity = { }
 
 	for _,row in ipairs(buildObjectivesDB.rows) do
+		if string.len(row.item) > 10 then
+			if string.sub(row.item, -10, -1) == " Blueprint" then
+				local oldName = row.item
+				row.item = string.sub(row.item, 1, -11)
+			end
+		end
 		local preset = presetsDB.keyBy.preset[row.item]
 		if preset ~= nil then
 			local presetQuantity = row.quantity

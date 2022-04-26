@@ -35,8 +35,13 @@ local function main()
 
 	local blueprintsLibrary = blueprints.load()
 
+	local copiesF = io.open("outputs/copies.csv", "wb")
+	copiesF:write("item\tbpPrice\teiv\tcopyTime\tcopyRuns\tcategory\tunitsPerRun\n")
+
 	local intermediatesF = io.open("outputs/intermediates.csv", "wb")
-	intermediatesF:write("item\tmarketPrice\tbuildPrice\tsourcing\n")
+	intermediatesF:write("item\tmarketPrice\tbuildPrice\tsourcing\teiv\n")
+	
+	local sortedIntermediatesF = io.open("outputs/sorted_intermediates.csv", "wb")
 
 	local intermediateUnprocessedSet = { }
 
@@ -48,6 +53,8 @@ local function main()
 	end
 
 	local categoryWarnings = { }
+	
+	local itemDependencies = { }
 
 	for _,row in ipairs(intermediateItemsDB.rows) do
 		local item = row.item
@@ -59,9 +66,18 @@ local function main()
 		local reaction = reactions.react(item, reactionRuns)
 		local constructedPrice = nil
 		local missingInput = false
+		local eiv = 0
+		local bpPrice = 0
+		local bpCopyTime = 0
+		local bpCategory = "Uncategorized"
+		local bpCopyRuns = 0
+		local bpUnitsPerRun = 1
+
+		local deps = { }
+		itemDependencies[row.item] = deps
 
 		if blueprint ~= nil then
-			local bpCategory = blueprintCategoryDB.keyBy.item[item].category
+			bpCategory = blueprintCategoryDB.keyBy.item[item].category
 			local bpFacilityReduction = 0
 
 			local reductionRow = categoryReductionDB.keyBy.category[bpCategory]
@@ -74,7 +90,7 @@ local function main()
 				bpFacilityReduction = reductionRow.reduction
 			end
 
-			local eiv = blueprint:ConstructionCost(eivPriceTable, 1)
+			eiv = blueprint:ConstructionCost(eivPriceTable, 1)
 			local sci = sci.Find("manufacturing", bpCategory)
 			local costFactor = (1.0 - config.structureManufacturingCostReduction / 100.0) * (1.0 + config.structureManufacturingTax / 100.0)
 
@@ -88,12 +104,19 @@ local function main()
 			constructedPrice = (blueprint:ConstructionCost(priceTable, runs) + eiv * sci * costFactor) / (outputQuantity * runs)
 
 			for mat in pairs(blueprint.materials) do
+				deps[#deps+1] = mat
 				if intermediateUnprocessedSet[mat] then
 					print("WARNING: Manufactured intermediate "..item.." was listed before input intermediate "..mat..", its value will be inaccurate!  Place "..mat.." higher in the intermediate list to prevent this.")
 				end
 			end
+
+			bpCopyTime = assert(blueprint.copyTime)
+			bpPrice = assert(blueprint.blueprintBasePrice)
+			bpCopyRuns = blueprint.maxRuns
+			bpUnitsPerRun = outputQuantity
 		elseif reaction ~= nil and config.enableReactionsInReport then
 			constructedPrice = 0.0
+			bpCategory = "Reaction"
 
 			local sci = sci.Find("reaction", reaction.category)
 			local costFactor = (1.0 + config.structureReactionTax / 100.0)
@@ -103,7 +126,7 @@ local function main()
 				local unrefinedQuantity = 100
 
 				reaction = reactions.react(unrefinedItem, unrefinedQuantity)
-				local eiv = reactions.computeBaseItemCost(unrefinedItem, eivPriceTable) * unrefinedQuantity
+				eiv = reactions.computeBaseItemCost(unrefinedItem, eivPriceTable) * unrefinedQuantity
 
 				local reprocessed = reactions.alchemyReprocessUnrefined(unrefinedItem, unrefinedQuantity)
 
@@ -127,6 +150,7 @@ local function main()
 
 				constructedPrice = 0.0
 				for mat,quantity in pairs(costs) do
+					deps[#deps+1] = mat
 					if intermediateUnprocessedSet[mat] then
 						print("WARNING: Manufactured intermediate "..row.item.." was listed before input intermediate "..mat..", its value will be inaccurate!  Place "..mat.." higher in the intermediate list to prevent this.")
 					end
@@ -137,11 +161,12 @@ local function main()
 				constructedPrice = (constructedPrice + eiv * sci * costFactor) / reprocessedOutputQuantity
 			else
 				local outputQuantity = reaction.outputQuantity
-				local eiv = reactions.computeBaseItemCost(item, eivPriceTable) * reactionRuns
+				eiv = reactions.computeBaseItemCost(item, eivPriceTable) * reactionRuns
 
 				constructedPrice = 0.0
 
 				for mat,quantity in pairs(reaction.inputs) do
+					deps[#deps+1] = mat
 					if intermediateUnprocessedSet[mat] then
 						print("WARNING: Manufactured intermediate "..row.item.." was listed before input intermediate "..mat..", its value will be inaccurate!  Place "..mat.." higher in the intermediate list to prevent this.")
 					end
@@ -184,7 +209,9 @@ local function main()
 		else
 			intermediatesF:write("market")
 		end
-		intermediatesF:write("\n")
+		intermediatesF:write("\t"..eiv.."\n")
+
+		copiesF:write(row.item.."\t"..bpPrice.."\t"..eiv.."\t"..bpCopyTime.."\t"..bpCopyRuns.."\t"..bpCategory.."\t"..bpUnitsPerRun.."\n")
 	end
 
 	local mpf = io.open("data/cache/items_marketprices.dat", "w")
@@ -194,7 +221,36 @@ local function main()
 	end
 	mpf:close()
 
+	sortedIntermediatesF:write("item\n")
+	local dependencyRound = 1
+	while next(itemDependencies) do
+		sortedIntermediatesF:write("@@\n")
+		sortedIntermediatesF:write("@@ Sorted Intermediates Tier "..dependencyRound.."\n")
+		sortedIntermediatesF:write("@@\n")
+		dependencyRound = dependencyRound + 1
+		local itemsThisRound = { }
+		for item, deps in pairs(itemDependencies) do
+			local hasUnresolvedDeps = false
+			for _,dep in ipairs(deps) do
+				if itemDependencies[dep] then
+					hasUnresolvedDeps = true
+					break
+				end
+			end
+
+			if not hasUnresolvedDeps then
+				itemsThisRound[#itemsThisRound + 1] = item
+			end
+		end
+		table.sort(itemsThisRound)
+		for _,item in ipairs(itemsThisRound) do
+			itemDependencies[item] = nil
+			sortedIntermediatesF:write(item.."\n")
+		end
+	end
+
 	intermediatesF:close()
+	sortedIntermediatesF:close()
 end
 
 
