@@ -469,6 +469,8 @@ local function processInventable(outFile, outTable, item)
 				outTable:write("\t")
 				outTable:write(decryptor.item)
 				outTable:write("\t")
+				outTable:write(invention.inventedFrom)
+				outTable:write("\t")
 				outTable:write(profit)
 				outTable:write("\t")
 				outTable:write(totalProfit)
@@ -592,7 +594,7 @@ end
 
 local function main()
 	local outTable = io.open("outputs/invention.csv", "w")
-	outTable:write("item\tdecryptor\tprofitPerManufacturingRun\tprofitPerT2Blueprint\tinventCost\tbuildCost\tmarketValue\tinventedBPRuns\tinventionSuccessRate\tbuildTime\tcomponentBuildTime\tsingleCopyTime\tinventTime\n")	
+	outTable:write("item\tdecryptor\tbaseItem\tprofitPerManufacturingRun\tprofitPerT2Blueprint\tinventCost\tbuildCost\tmarketValue\tinventedBPRuns\tinventionSuccessRate\tbuildTime\tcomponentBuildTime\tsingleCopyTime\tinventTime\n")	
 
 	local outFile = io.open("outputs/invention.html", "w")
 
