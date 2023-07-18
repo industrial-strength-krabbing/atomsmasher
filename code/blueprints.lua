@@ -34,11 +34,13 @@ inventionMeta = {
 		end,
 		InventionInstallCost = function(self, sci)
 			local eiv = 0.0
-			for _,coreItem in pairs(self.inventionDatacores) do
-				eiv = eiv + (eivPriceTable[coreItem.item] or 0) * coreItem.quantity
+			for item,quantity in pairs(self.inventionEIVMaterials) do
+				eiv = eiv + (eivPriceTable[item] or 0) * quantity
 			end
-			local costFactor = (1.0 - config.structureInventionCostReductionRig / 100.0) * (1.0 - config.structureInventionCostReductionRoleBonus / 100.0) * (1.0 + config.structureInventionTax / 100.0)
-			return eiv * sci * costFactor
+			local jcb = eiv * 0.02
+			local jobGrossCost = jcb * (1.0 - config.structureInventionCostReductionRig / 100.0) * (1.0 - config.structureInventionCostReductionRoleBonus / 100.0) * sci
+			local jobFacilityTax = jcb * ((config.structureInventionTax + config.staticIndustryTax) / 100.0)
+			return jobGrossCost + jobFacilityTax
 		end,
 		InventionRuns = function(self, params)
 			return assert(self.inventRuns) + assert(params.decryptor.runsModifier)
@@ -112,8 +114,10 @@ bpMeta = {
 				eiv = eiv + (eivPriceTable[item] or 0) * quantity
 			end
 
-			local costFactor = (1.0 - config.structureManufacturingCostReduction / 100.0) * (1.0 + config.structureManufacturingTax / 100.0)
-			return eiv * runs * sci * costFactor
+			local jobGrossCost = eiv * (1.0 - config.structureManufacturingCostReduction / 100.0) * sci
+			local jobFacilityTax = eiv * ((config.structureManufacturingTax + config.staticIndustryTax) / 100.0)
+
+			return (jobGrossCost + jobFacilityTax) * runs
 		end,
 		ComponentConstructionTime = function(self, bpdb)
 			local totalTime = 0
@@ -356,7 +360,9 @@ blueprints =
 					{ item = row.datacore1, quantity = row.datacore1quantity },
 					{ item = row.datacore2, quantity = row.datacore2quantity },
 				}
+				inv.inventionEIVMaterials = bp.eivMaterials
 				inv.class = row.class
+				inv.itemName = row.item
 				setmetatable(inv, inventionMeta)
 				inventions[#inventions + 1] = inv
 			end

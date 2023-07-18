@@ -92,7 +92,7 @@ local function main()
 
 			eiv = blueprint:ConstructionCost(eivPriceTable, 1)
 			local sci = sci.Find("manufacturing", bpCategory)
-			local costFactor = (1.0 - config.structureManufacturingCostReduction / 100.0) * (1.0 + config.structureManufacturingTax / 100.0)
+			local costFactor = sci * (1.0 - config.structureManufacturingCostReduction / 100.0) + ((config.structureManufacturingTax + config.staticIndustryTax) / 100.0)
 
 			blueprint = blueprint:Clone()
 			blueprint.me = 10
@@ -101,7 +101,7 @@ local function main()
 			local outputQuantity = (blueprintQuantityDB.keyBy.item[item] or { quantity = 1 }).quantity
 			local runs = 100
 
-			constructedPrice = (blueprint:ConstructionCost(priceTable, runs) + eiv * sci * costFactor) / (outputQuantity * runs)
+			constructedPrice = (blueprint:ConstructionCost(priceTable, runs) + eiv * costFactor) / (outputQuantity * runs)
 
 			for mat in pairs(blueprint.materials) do
 				deps[#deps+1] = mat
@@ -119,7 +119,7 @@ local function main()
 			bpCategory = "Reaction"
 
 			local sci = sci.Find("reaction", reaction.category)
-			local costFactor = (1.0 + config.structureReactionTax / 100.0)
+			local costFactor = sci + ((config.structureReactionTax + config.staticIndustryTax) / 100.0)
 
 			if config.alchemy[item] then
 				local unrefinedItem = reactions.alchemyUnrefinedItemFor(item)
@@ -158,7 +158,7 @@ local function main()
 					constructedPrice = constructedPrice + priceTable[mat] * quantity
 				end
 
-				constructedPrice = (constructedPrice + eiv * sci * costFactor) / reprocessedOutputQuantity
+				constructedPrice = (constructedPrice + eiv * costFactor) / reprocessedOutputQuantity
 			else
 				local outputQuantity = reaction.outputQuantity
 				eiv = reactions.computeBaseItemCost(item, eivPriceTable) * reactionRuns
@@ -180,7 +180,7 @@ local function main()
 					constructedPrice = constructedPrice + price * quantity
 				end
 
-				constructedPrice = (constructedPrice + eiv * sci * costFactor) / outputQuantity
+				constructedPrice = (constructedPrice + eiv * costFactor) / outputQuantity
 			end
 		else
 			print("Unknown intermediate "..row.item)
