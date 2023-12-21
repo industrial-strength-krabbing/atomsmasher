@@ -375,7 +375,18 @@ namespace ESIHandler
             }
 
             Console.WriteLine("Pending auth registered, launching browser...");
-            System.Diagnostics.Process.Start(uri);
+
+            try
+            {
+                System.Diagnostics.Process.Start(uri);
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                Console.WriteLine("Failed to launch browser.  Open it manually and visit the following URL:\n");
+                Console.WriteLine(uri);
+                Console.WriteLine("\nAfterwards, copy the response URL and run the following command:");
+                Console.WriteLine("mono SDEParser/AtomSmasherESITool/bin/Release/AtomSmasherESITool.exe Install [RESPONSE URL]");
+            }
         }
 
         static CharacterAuthInfo UnpackToken(AuthToken authToken)
