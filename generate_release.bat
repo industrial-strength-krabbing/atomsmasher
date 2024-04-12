@@ -1,7 +1,6 @@
 mkdir release
 mkdir release\code
 mkdir release\SDEParser
-mkdir release\SDEParser\YamlDotNet
 mkdir release\SDEParser\SDEParser
 copy /Y CHANGELOG.txt release
 copy /Y build_objectives.csv release
