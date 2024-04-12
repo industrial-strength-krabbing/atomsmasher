@@ -52,6 +52,15 @@ config =
 	-- Set this to include outputs of in-progress manufacturing and reaction jobs when collating on-hand inventory
 	collateIncludeIndustryProducts = true,
 
+	-- Set this to true to compress gas in shopping lists
+	compressGasInShoppingLists = true,
+
+	-- Total gas decompression efficiency
+	gasDecompressionEfficiency = 95.0,
+
+	-- Static industry tax (SCC tax), in percent
+	staticIndustryTax = 4.0,
+
 	-- The market outlier filter is a 2-step filter that tries to ignore outlier sell orders on the market
 	-- It has two phases:
 	-- In the first phase, all orders with a price within "aggregationThreshold" percent are merged

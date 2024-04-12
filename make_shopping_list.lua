@@ -50,6 +50,9 @@ local alchemyParentDB = loadTabFile("data/cache/alchemy_parent.dat")
 local autoBuyDB = loadTabFile("userdata/items_autobuy.dat")
 	database.indexByUnique(autoBuyDB, "item")
 
+local gasCompressionDB = loadTabFile("data/gas_compression.dat")
+	database.indexByUnique(gasCompressionDB, "item")
+
 local intermediatesSourcingDB
 
 if #autoBuyDB.rows > 0 then
@@ -121,6 +124,9 @@ local function FindDependencies(tree, item, isPrimary)
 					end
 				end
 			end
+		elseif config.compressGasInShoppingLists and gasCompressionDB.keyBy.item[item] then
+			local parent = gasCompressionDB.keyBy.item[item].compressed
+			deps[parent] = FindDependencies(tree, parent)
 		else
 			if isPrimary then
 				print("Couldn't find materials for intermediate "..item)
@@ -129,6 +135,15 @@ local function FindDependencies(tree, item, isPrimary)
 	end
 
 	return deps
+end
+
+local function printDeps(deps)
+	for dk,dv in pairs(deps) do
+		print("Dependencies for "..dk)
+		for k,v in pairs(dv) do
+			print("   "..tostring(k))
+		end
+	end
 end
 
 local function PhaseItem(phases, tree, item, phase)
@@ -222,6 +237,8 @@ local function main()
 		FindDependencies(itemDependencyTree, row.item, true)
 	end
 
+	--printDeps(itemDependencyTree)
+
 	local itemPhases = { }
 
 	for _,row in ipairs(buildObjectives) do
@@ -280,6 +297,10 @@ local function main()
 				local blueprint = bpdb[item]
 				local reactionMats = reactionsDB.keyBy.item[item]
 				local reactionProps = reactionsPropertiesDB.keyBy.item[item]
+				local gasProps = nil
+				if config.compressGasInShoppingLists and gasCompressionDB.keyBy.item[item] then
+					gasProps = gasCompressionDB.keyBy.item[item]
+				end
 
 				if blueprint then
 					local blueprintME = 10
@@ -290,6 +311,11 @@ local function main()
 					end
 
 					local bpCategory = blueprintCategoryDB.keyBy.item[item].category
+
+					if categoryReductionDB.keyBy.category[bpCategory] == nil then
+						assert(false, "Missing facility category reduction for "..bpCategory)
+					end
+
 					local bpFacilityReduction = categoryReductionDB.keyBy.category[bpCategory].reduction
 
 					blueprint = blueprint:Clone()
@@ -382,6 +408,15 @@ local function main()
 
 						itemIsNotLeaf = true
 					end
+				elseif gasProps then
+					local mat = gasProps.compressed
+					local inputQuantity = itemQuantities[gasProps.item]
+					if inputQuantity ~= nil and inputQuantity > 0 then
+						local compressedUnits = math.ceil(inputQuantity * 100 / config.gasDecompressionEfficiency)
+						itemQuantities[mat] = (itemQuantities[mat] or 0) + compressedUnits
+					end
+
+					itemIsNotLeaf = true
 				end
 			end
 			
