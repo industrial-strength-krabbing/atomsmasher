@@ -17,8 +17,8 @@ copy /Y esi_purge_auths.bat release
 copy /Y esi_purge_auths.sh release
 copy /Y filter_sell_orders.lua release
 copy /Y INSTRUCTIONS.txt release
-copy /Y lua5.1.dll release
-copy /Y lua5.1.exe release
+copy /Y lua54.dll release
+copy /Y lua54.exe release
 copy /Y make_shopping_list.bat release
 copy /Y make_shopping_list.sh release
 copy /Y make_shopping_list.lua release

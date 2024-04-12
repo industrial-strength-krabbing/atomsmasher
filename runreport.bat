@@ -1,4 +1,4 @@
-lua5.1.exe compute_price_levels.lua
-lua5.1.exe report_invention.lua
-lua5.1.exe report_reactions.lua
+lua54.exe compute_price_levels.lua
+lua54.exe report_invention.lua
+lua54.exe report_reactions.lua
 pause
