@@ -61,7 +61,15 @@ local function roundTo10k(n)
 	return math.floor(n/10000+0.5)*10000
 end
 
+local function stripDecimal(n)
+	if n == math.floor(n) then
+		return math.tointeger(n)
+	end
+	return n
+end
+
 local function padNumber(n)
+	n = stripDecimal(n)
 	if(n >= 100) then return n end
 	if(n >= 10) then return "0"..n end
 	return "00"..n
@@ -90,7 +98,7 @@ local function formatNumber(n, suffix)
 		low = roundToHundredth(high % 1000)
 		high = math.floor(high / 1000)
 	end
-	result = low..result..suffix
+	result = stripDecimal(low)..result..suffix
 	if negate then
 		result = "<span style='color:red'>-"..result.."</span>"
 	end
