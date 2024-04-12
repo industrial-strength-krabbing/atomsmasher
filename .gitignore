@@ -6,3 +6,4 @@ userdata/*
 *.user
 *.zip
 uri_handler_install.reg
+SDEParser/packages/*
