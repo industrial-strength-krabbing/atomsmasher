@@ -41,13 +41,13 @@ config =
 	structureInventionCostReductionRoleBonus = 3.0,
 
 	-- Facility invention tax, in percent
-	structureInventionTax = 15.0,
+	structureInventionTax = 1.0,
 
 	-- Facility reaction tax, in percent
-	structureReactionTax = 10.0,
+	structureReactionTax = 1.0,
 
 	-- Facility manufacturing tax, in percent
-	structureManufacturingTax = 5.0,
+	structureManufacturingTax = 1.0,
 
 	-- Set this to include outputs of in-progress manufacturing and reaction jobs when collating on-hand inventory
 	collateIncludeIndustryProducts = true,
