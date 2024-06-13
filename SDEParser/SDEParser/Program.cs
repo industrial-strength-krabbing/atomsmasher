@@ -79,7 +79,7 @@ namespace SDEParser
             public int iconID { get; set; }
             public int factionID { get; set; }
             public int marketGroupID { get; set; }
-            public int metaGroupID { get; set; }
+            public double metaGroupID { get; set; }
             public int sofMaterialSetID { get; set; }
             public int? variationParentTypeID { get; set; }
             public Dictionary<string, string> name { get; set; }
@@ -203,7 +203,7 @@ namespace SDEParser
 
             Console.WriteLine("Loading category IDs...");
 
-            using (StreamReader sr = new StreamReader("data2/categoryIDs.yaml"))
+            using (StreamReader sr = new StreamReader("data2/categories.yaml"))
             {
                 YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
                 categoryIDs = ds.Deserialize<Dictionary<int, CategoryID>>(sr);
@@ -211,7 +211,7 @@ namespace SDEParser
 
             Console.WriteLine("Loading group IDs...");
 
-            using (StreamReader sr = new StreamReader("data2/groupIDs.yaml"))
+            using (StreamReader sr = new StreamReader("data2/groups.yaml"))
             {
                 YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
                 groupIDs = ds.Deserialize<Dictionary<int, GroupID>>(sr);
@@ -242,7 +242,7 @@ namespace SDEParser
 
             Console.WriteLine("Loading type IDs...");
 
-            using (StreamReader sr = new StreamReader("data2/typeIDs.yaml"))
+            using (StreamReader sr = new StreamReader("data2/types.yaml"))
             {
                 YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
                 typeIDs = ds.Deserialize<Dictionary<int, TypeID>>(sr);
