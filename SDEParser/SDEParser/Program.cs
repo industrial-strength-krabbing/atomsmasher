@@ -103,6 +103,7 @@ namespace SDEParser
             public string iconSuffix { get; set; }
             public Dictionary<string, string> nameID { get; set; }
             public Dictionary<string, string> descriptionID { get; set; }
+            public float[] color { get; set; }
         }
 
         public struct GroupID
