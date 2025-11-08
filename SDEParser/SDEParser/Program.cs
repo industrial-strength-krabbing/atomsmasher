@@ -97,13 +97,27 @@ namespace SDEParser
             public string sofFactionName { get; set; }
         }
 
+        public struct RGBColor
+        {
+            public double r { get; set; }
+            public double g { get; set; }
+            public double b { get; set; }
+        }
+
+        public struct XYZCoordinate
+        {
+            public double x { get; set; }
+            public double y { get; set; }
+            public double z { get; set; }
+        }
+
         public struct MetaGroup
         {
             public int iconID { get; set; }
             public string iconSuffix { get; set; }
-            public Dictionary<string, string> nameID { get; set; }
-            public Dictionary<string, string> descriptionID { get; set; }
-            public float[] color { get; set; }
+            public Dictionary<string, string> name { get; set; }
+            public Dictionary<string, string> description { get; set; }
+            public RGBColor color { get; set; }
         }
 
         public struct GroupID
@@ -136,10 +150,30 @@ namespace SDEParser
             public TypeMaterial[] materials { get; set; }
         }
 
-        public class ItemName
+        public class SolarSystem
         {
-            public long itemID { get; set; }
-            public string itemName { get; set; }
+            public long constellationID { get; set; }
+            public bool hub { get; set; }
+            public double luminosity { get; set; }
+            public Dictionary<string, string> name { get; set; }
+            public long[] planetIDs { get; set; }
+            public XYZCoordinate position { get; set; }
+            public double radius { get; set; }
+            public long regionID { get; set; }
+            public string securityClass { get; set; }
+            public double securityStatus { get; set; }
+            public long starID { get; set; }
+            public long[] stargateIDs { get; set; }
+            public int[] disallowedAnchorCategories { get; set; }
+            public int[] disallowedAnchorGroups { get; set; }
+            public bool border { get; set; }
+            public bool corridor { get; set; }
+            public bool international { get; set; }
+            public bool regional { get; set; }
+            public bool fringe { get; set; }
+            public int wormholeClassID { get; set; }
+            public string visualEffect { get; set; }
+            public int factionID { get; set; }
         }
 
         static string NameType(Dictionary<int, TypeID> typeIDs, int id)
@@ -241,24 +275,22 @@ namespace SDEParser
 
             blueprints.Remove(45732);   // Stupid test blueprint
 
+            Console.WriteLine("Loading solar systems...");
+
+            Dictionary<long, SolarSystem> solarSystems = new Dictionary<long, SolarSystem>();
+
+            using (StreamReader sr = new StreamReader("data2/mapSolarSystems.yaml"))
+            {
+                YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
+                solarSystems = ds.Deserialize<Dictionary<long, SolarSystem>>(sr);
+            }
+
             Console.WriteLine("Loading type IDs...");
 
             using (StreamReader sr = new StreamReader("data2/types.yaml"))
             {
                 YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
                 typeIDs = ds.Deserialize<Dictionary<int, TypeID>>(sr);
-            }
-
-            Console.WriteLine("Loading names...");
-
-            Dictionary<long, string> names = new Dictionary<long, string>();
-
-            using (StreamReader sr = new StreamReader("data2/invNames.yaml"))
-            {
-                YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
-                ItemName[] namesList = ds.Deserialize<ItemName[]>(sr);
-                foreach (ItemName item in namesList)
-                    names[item.itemID] = item.itemName;
             }
 
             Console.WriteLine("Cleaning up garbage blueprints...");
@@ -572,7 +604,7 @@ namespace SDEParser
                 foreach (KeyValuePair<int, MetaGroup> metaGroupPair in metaGroups)
                 {
                     string metaGroupName;
-                    if (metaGroupPair.Value.nameID.TryGetValue("en", out metaGroupName))
+                    if (metaGroupPair.Value.name.TryGetValue("en", out metaGroupName))
                     {
                         if (metaGroupName == "Tech II")
                             techIImetaGroup = metaGroupPair.Key;
@@ -649,13 +681,13 @@ namespace SDEParser
                 }
             }
 
-            using (StreamWriter sw = new StreamWriter("data/cache/legacy_names.dat"))
+            using (StreamWriter sw = new StreamWriter("data/cache/solar_systems.dat"))
             {
-                foreach (KeyValuePair<long, string> name in names)
+                foreach (KeyValuePair<long, SolarSystem> solarSystem in solarSystems)
                 {
-                    sw.Write(name.Key.ToString());
+                    sw.Write(solarSystem.Key.ToString());
                     sw.Write("\t");
-                    sw.Write(name.Value);
+                    sw.Write(solarSystem.Value.name["en"]);
                     sw.WriteLine();
                 }
             }

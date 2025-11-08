@@ -1,14 +1,14 @@
+using ESIHandler;
+using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Text;
-using System.Threading;
-using Microsoft.Win32;
 using System.Net;
 using System.Security.Cryptography;
-using Newtonsoft.Json;
-using System.Globalization;
-using ESIHandler;
+using System.Text;
+using System.Threading;
 
 namespace AtomSmasherESITool
 {
@@ -20,28 +20,6 @@ namespace AtomSmasherESITool
         public double lowest { get; set; }
         public long order_count { get; set; }
         public long volume { get; set; }
-    }
-
-    public class StationInfo
-    {
-        public long constellationID { get; set; }
-        public long corporationID { get; set; }
-        public double dockingCostPerVolume { get; set; }
-        public long maxShipVolumeDockable { get; set; }
-        public double officeRentalCost { get; set; }
-        public int operationID { get; set; }
-        public int regionID { get; set; }
-        public double reprocessingEfficiency { get; set; }
-        public int reprocessingHangarFlag { get; set; }
-        public double reprocessingStationsTake { get; set; }
-        public double security { get; set; }
-        public long solarSystemID { get; set; }
-        public long stationID { get; set; }
-        public string stationName { get; set; }
-        public int stationTypeID { get; set; }
-        public double x { get; set; }
-        public double y { get; set; }
-        public double z { get; set; }
     }
 
     public class ItemName
@@ -229,6 +207,104 @@ namespace AtomSmasherESITool
     {
         public PublicMarketConfig[] public_markets { get; set; }
         public CitadelMarketConfig[] citadel_markets { get; set; }
+    }
+
+    public struct XYZCoordinate
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+        public double z { get; set; }
+    }
+
+    public class NPCStation
+    {
+        public int celestialIndex { get; set; }
+        public int operationID { get; set; }
+        public long orbitID { get; set; }
+        public int orbitIndex { get; set; }
+        public long ownerID { get; set; }
+        public XYZCoordinate position { get; set; }
+        public double reprocessingEfficiency { get; set; }
+        public double reprocessingHangarFlag { get; set; }
+        public double reprocessingStationsTake { get; set; }
+        public long solarSystemID { get; set; }
+        public int typeID { get; set; }
+        public bool useOperationName { get; set; }
+    }
+
+    public struct NPCCorporationDivision
+    {
+        public int divisionNumber { get; set; }
+        public long leaderID { get; set; }
+        public int size { get; set; }
+    }
+
+    public class NPCCorporation
+    {
+        public int[] allowedMemberRaces { get; set; }
+        public long ceoID { get; set; }
+        public Dictionary<int, double> corporationTrades { get; set; }
+        public bool deleted { get; set; }
+        public Dictionary<string, string> description { get; set; }
+        public Dictionary<int, NPCCorporationDivision> divisions { get; set; }
+        public long enemyID { get; set; }
+        public Dictionary<long, double> exchangeRates { get; set; }
+        public char extent { get; set; }
+        public long factionID { get; set; }
+        public long friendID { get; set; }
+        public bool hasPlayerPersonnelManager { get; set; }
+        public int iconID { get; set; }
+        public int initialPrice { get; set; }
+        public Dictionary<long, int> investors { get; set; }
+        public int[] lpOfferTables { get; set; }
+        public int mainActivityID { get; set; }
+        public int memberLimit { get; set; }
+        public double minSecurity { get; set; }
+        public int minimumJoinStanding { get; set; }
+        public Dictionary<string, string> name { get; set; }
+        public int raceID { get; set; }
+        public int secondaryActivityID { get; set; }
+        public bool sendCharTerminationMessage { get; set; }
+        public long shares { get; set; }
+        public char size { get; set; }
+        public double sizeFactor { get; set; }
+        public long solarSystemID { get; set; }
+        public long stationID { get; set; }
+        public double taxRate { get; set; }
+        public string tickerName { get; set; }
+        public bool uniqueName { get; set; }
+    }
+
+    public class Faction
+    {
+        public long corporationID { get; set; }
+        public Dictionary<string, string> description { get; set; }
+        public string flatLogo { get; set; }
+        public string flatLogoWithName { get; set; }
+        public int iconID { get; set; }
+        public int[] memberRaces { get; set; }
+        public long militiaCorporationID { get; set; }
+        public Dictionary<string, string> name { get; set; }
+        public Dictionary<string, string> shortDescription { get; set; }
+        public double sizeFactor { get; set; }
+        public long solarSystemID { get; set; }
+        public bool uniqueName { get; set; }
+    }
+
+    public class StationOperation
+    {
+        public int activityID { get; set; }
+        public double border { get; set; }
+        public double corridor { get; set; }
+        public Dictionary<string, string> description { get; set; }
+        public double fringe { get; set; }
+        public double hub { get; set; }
+        public double manufacturingFactor { get; set; }
+        public Dictionary<string, string> operationName { get; set; }
+        public double ratio { get; set; }
+        public double researchFactor { get; set; }
+        public int[] services { get; set; }
+        public Dictionary<int, int> stationTypes { get; set; }
     }
 
     class Program
@@ -547,43 +623,76 @@ namespace AtomSmasherESITool
 
                 Console.WriteLine("Attempting to identify " + unknownLocations.Count.ToString() + " unknown locations...");
 
-                Console.WriteLine("    Loading names...");
+                Console.WriteLine("    Loading solar systems...");
 
-                Dictionary<long, string> names = new Dictionary<long, string>();
+                Dictionary<long, string> solarSystemNames = new Dictionary<long, string>();
+                using (StreamReader sr = new StreamReader(GetRootDirectory() + "/data/cache/solar_systems.dat"))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        string[] tokens = line.Split('\t');
 
-                using (StreamReader sr = new StreamReader(GetRootDirectory() + "/data2/invNames.yaml"))
+                        if (tokens.Length == 2)
+                            solarSystemNames[long.Parse(tokens[0])] = tokens[1];
+                    }
+                }
+
+                Console.WriteLine("    Loading NPC corporations...");
+
+                Dictionary<long, NPCCorporation> npcCorps = null;
+
+                using (StreamReader sr = new StreamReader(rootDir + "/data2/npcCorporations.yaml"))
                 {
                     YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
-                    ItemName[] namesList = ds.Deserialize<ItemName[]>(sr);
-                    foreach (ItemName item in namesList)
-                        names[item.itemID] = item.itemName;
+                    npcCorps = ds.Deserialize<Dictionary<long, NPCCorporation>>(sr);
+                }
+
+                Console.WriteLine("    Loading operations...");
+
+                Dictionary<long, StationOperation> stationOperations = null;
+
+                using (StreamReader sr = new StreamReader(rootDir + "/data2/stationOperations.yaml"))
+                {
+                    YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
+
+                    stationOperations = ds.Deserialize<Dictionary<long, StationOperation>>(sr);
                 }
 
                 Console.WriteLine("    Loading stations...");
 
                 int numResolvedStations = 0;
-                using (StreamReader sr = new StreamReader(rootDir + "/data2/staStations.yaml"))
+                using (StreamReader sr = new StreamReader(rootDir + "/data2/npcStations.yaml"))
                 {
                     YamlDotNet.Serialization.Deserializer ds = new YamlDotNet.Serialization.Deserializer();
 
-                    StationInfo[] stations = ds.Deserialize<StationInfo[]>(sr);
-                    foreach (StationInfo station in stations)
+                    Dictionary<long, NPCStation> npcStations = ds.Deserialize<Dictionary<long, NPCStation>>(sr);
+
+                    List<long> resolvedStationLocations = new List<long>();
+
+                    foreach (long locationID in unknownLocations)
                     {
-                        if (unknownLocations.Contains(station.stationID))
+                        NPCStation npcStation = null;
+                        if (npcStations.TryGetValue(locationID, out npcStation))
                         {
-                            unknownLocations.Remove(station.stationID);
+                            resolvedStationLocations.Add(locationID);
 
                             LocationInfo li = new LocationInfo();
-                            li.LocationID = station.stationID;
-                            li.Name = station.stationName;
-                            li.OwnerID = station.corporationID;
-                            li.SolarSystemID = station.solarSystemID;
-                            li.TypeID = station.stationTypeID;
+                            li.LocationID = locationID;
+                            li.Name = FormatNPCStationName(npcStation, solarSystemNames, stationOperations, npcCorps);
+                            li.OwnerID = npcStation.ownerID;
+                            li.SolarSystemID = npcStation.solarSystemID;
+                            li.TypeID = npcStation.typeID;
 
-                            locationCache[station.stationID] = li;
+                            locationCache[locationID] = li;
 
                             numResolvedStations++;
                         }
+                    }
+
+                    foreach (long removeLocationID in resolvedStationLocations)
+                    {
+                        unknownLocations.Remove(removeLocationID);
                     }
                 }
 
@@ -650,7 +759,7 @@ namespace AtomSmasherESITool
                 foreach (LocationInfo li in locationCache.Values)
                 {
                     string name;
-                    if (!names.TryGetValue(li.SolarSystemID, out name))
+                    if (!solarSystemNames.TryGetValue(li.SolarSystemID, out name))
                         name = "Unknown";
 
                     li.SolarSystemName = name;
@@ -660,6 +769,113 @@ namespace AtomSmasherESITool
             }
 
             return locationCache;
+        }
+
+        public static string RomanNumeral(int index)
+        {
+            switch (index)
+            {
+                case 1:
+                    return "I";
+                case 2:
+                    return "II";
+                case 3:
+                    return "III";
+                case 4:
+                    return "IV";
+                case 5:
+                    return "V";
+                case 6:
+                    return "VI";
+                case 7:
+                    return "VII";
+                case 8:
+                    return "VIII";
+                case 9:
+                    return "IX";
+                case 10:
+                    return "X";
+                case 11:
+                    return "XI";
+                case 12:
+                    return "XII";
+                case 13:
+                    return "XIII";
+                case 14:
+                    return "XIV";
+                case 15:
+                    return "XV";
+                case 16:
+                    return "XVI";
+                case 17:
+                    return "XVII";
+                case 18:
+                    return "XVIII";
+                default:
+                    return index.ToString();
+            }
+        }
+
+        private static string FormatNPCStationName(NPCStation npcStation, Dictionary<long, string> solarSystemNames, Dictionary<long, StationOperation> stationOperations, Dictionary<long, NPCCorporation> npcCorps)
+        {
+            StringBuilder sb = new StringBuilder(32);
+
+            {
+                string solarSystemName;
+                if (solarSystemNames.TryGetValue(npcStation.solarSystemID, out solarSystemName))
+                {
+                    sb.Append(solarSystemName);
+                }
+                else
+                {
+                    sb.Append("UNKNOWN_SOLAR_SYSTEM_");
+                    sb.Append(npcStation.solarSystemID);
+                }
+            }
+
+            sb.Append(" ");
+            sb.Append(RomanNumeral(npcStation.celestialIndex));
+
+            if (npcStation.orbitIndex != 0)
+            {
+                sb.Append(" - Moon ");
+                sb.Append(npcStation.orbitIndex);
+            }
+
+            sb.Append(" - ");
+
+            {
+                NPCCorporation npcCorp;
+                string npcCorpName;
+                if (npcCorps.TryGetValue(npcStation.ownerID, out npcCorp) && npcCorp.name.TryGetValue("en", out npcCorpName))
+                {
+                    sb.Append(npcCorpName);
+                }
+                else
+                {
+                    sb.Append("UNKNOWN_NPC_CORP_");
+                    sb.Append(npcStation.ownerID);
+                }
+            }
+
+            if (npcStation.useOperationName)
+            {
+                sb.Append(" ");
+
+                string operationName = "";
+                StationOperation stationOperation;
+                if (stationOperations.TryGetValue(npcStation.operationID, out stationOperation) && stationOperation.operationName.TryGetValue("en", out operationName))
+                {
+                    sb.Append(operationName);
+                }
+                else
+                {
+                    sb.Append("UNKNOWN_OPERATION_");
+                    sb.Append(npcStation.operationID.ToString());
+                }
+            }
+
+            return sb.ToString();
         }
 
         static void AddIfNotExists<K, V>(IDictionary<K, V> dict, K key, V value)
