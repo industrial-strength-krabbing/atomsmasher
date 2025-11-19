@@ -111,6 +111,12 @@ namespace SDEParser
             public double z { get; set; }
         }
 
+        public struct XYCoordinate
+        {
+            public double x { get; set; }
+            public double y { get; set; }
+        }
+
         public struct MetaGroup
         {
             public int iconID { get; set; }
@@ -158,6 +164,7 @@ namespace SDEParser
             public Dictionary<string, string> name { get; set; }
             public long[] planetIDs { get; set; }
             public XYZCoordinate position { get; set; }
+            public XYCoordinate position2D { get; set; }
             public double radius { get; set; }
             public long regionID { get; set; }
             public string securityClass { get; set; }
