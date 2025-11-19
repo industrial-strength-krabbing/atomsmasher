@@ -1648,8 +1648,8 @@ namespace AtomSmasherESITool
 
             IndustrySystem[] industrySystems = JsonConvert.DeserializeObject<IndustrySystem[]>(Encoding.UTF8.GetString(pricesBlob));
 
-            Dictionary<long, string> names = new Dictionary<long, string>();
-            using (StreamReader sr = new StreamReader(GetRootDirectory() + "/data/cache/legacy_names.dat"))
+            Dictionary<long, string> solarSystemNames = new Dictionary<long, string>();
+            using (StreamReader sr = new StreamReader(GetRootDirectory() + "/data/cache/solar_systems.dat"))
             {
                 while (!sr.EndOfStream)
                 {
@@ -1657,7 +1657,7 @@ namespace AtomSmasherESITool
                     string[] tokens = line.Split('\t');
 
                     if (tokens.Length == 2)
-                        names[long.Parse(tokens[0])] = tokens[1];
+                        solarSystemNames[long.Parse(tokens[0])] = tokens[1];
                 }
             }
 
@@ -1667,7 +1667,7 @@ namespace AtomSmasherESITool
                 foreach (IndustrySystem system in industrySystems)
                 {
                     string solarSystemName;
-                    if (!names.TryGetValue(system.solar_system_id, out solarSystemName))
+                    if (!solarSystemNames.TryGetValue(system.solar_system_id, out solarSystemName))
                         solarSystemName = "UNKNOWN_SOLAR_SYSTEM_" + system.solar_system_id.ToString();
 
                     foreach (IndustrySystemCostIndex sci in system.cost_indices)
